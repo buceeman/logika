@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Szabály-Kaméleon — Logika Műhely</title>
+  <meta name="description" content="Végrehajtó funkciókat és rugalmas gondolkodást fejlesztő dzsungeljáték elsősöknek magyar hangalámondással.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/main.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=3">
+</head>
+<body class="jungle-body">
+  <header class="workshop-header">
+    <div class="container workshop-header-inner">
+      <div class="header-left">
+        <a href="../index.html" class="back-link" id="btn-back-home">← Főoldal</a>
+        <h1 class="workshop-title">🦎 Szabály-Kaméleon</h1>
+      </div>
+
+      <div class="header-controls">
+        <span class="stat-pill" id="star-counter" aria-label="Összegyűjtött csillagok">
+          ⭐ <span id="star-count-value">0</span>
+        </span>
+        <button type="button" class="icon-btn" id="btn-infinite-mode" aria-pressed="false" title="Végtelen gyakorlás be/ki">
+          ∞ <span class="btn-label">Végtelen</span>
+        </button>
+        <button type="button" class="icon-btn" id="btn-replay-voice" title="Feladat meghallgatása újra">
+          🗣️ <span class="btn-label">Hallgasd</span>
+        </button>
+        <button type="button" class="icon-btn" id="btn-toggle-sound" aria-pressed="true" title="Hang ki/be">
+          🔊
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container workshop-main">
+    <nav class="mode-nav" aria-label="Játékmódok">
+      <button type="button" class="mode-tab is-active" id="tab-mode-discover" data-mode="discover">
+        <span>🔍</span>
+        <span>1. Keresd a Szabályt</span>
+      </button>
+      <button type="button" class="mode-tab" id="tab-mode-switch" data-mode="switch">
+        <span>🦎</span>
+        <span>2. Kaméleon-Váltás</span>
+      </button>
+      <button type="button" class="mode-tab" id="tab-mode-opposite" data-mode="opposite">
+        <span>🔄</span>
+        <span>3. Fordított Törvény</span>
+      </button>
+    </nav>
+
+    <section class="game-panel" aria-live="polite">
+      <div class="prompt-bar">
+        <div class="prompt-left">
+          <div class="chameleon-avatar" id="chameleon-avatar" aria-hidden="true">🦎</div>
+          <div>
+            <span class="level-badge" id="level-badge">1. kör</span>
+            <p class="prompt-instruction" id="prompt-instruction">Töltsük be a dzsungelt…</p>
+          </div>
+        </div>
+        <div class="difficulty-bar" id="difficulty-bar" role="group" aria-label="Nehézségi szint">
+          <button type="button" class="diff-btn is-active" data-diff="easy">🌱 Könnyű</button>
+          <button type="button" class="diff-btn" data-diff="medium">⚡ Közepes</button>
+          <button type="button" class="diff-btn" data-diff="hard">🔥 Nehéz</button>
+        </div>
+      </div>
+
+      <div class="progress-strip">
+        <div class="progress-dots" id="progress-dots" aria-label="Haladás"></div>
+        <div class="rule-shift-alert" id="rule-shift-alert" style="display:none;">✨ Szabályváltás!</div>
+      </div>
+
+      <div class="card-stage">
+        <span style="font-size:0.86rem; font-weight:800; color:var(--ink-muted);" id="card-prompt-label">Hová illik ez a kártya?</span>
+        <div class="incoming-card" id="incoming-card"></div>
+      </div>
+
+      <div class="baskets-grid" id="baskets-grid"></div>
+
+      <div class="action-bar">
+        <div class="feedback-banner" id="feedback-banner">
+          <span>💡</span>
+          <span id="feedback-text">Válassz egy kosarat! A kaméleon jelzi, ha jó helyre tetted!</span>
+        </div>
+        <div class="action-buttons" id="action-buttons"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js?v=3"></script>
+</body>
+</html>
