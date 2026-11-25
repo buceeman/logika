@@ -43,7 +43,7 @@
   --shadow-button-active: 0 1px 0 var(--btn-shadow, #B53D25);
 
   /* Typography */
-  --font-display: 'Fredoka', 'Nunito', system-ui, -apple-system, sans-serif;
+  --font-display: 'Baloo 2', 'Nunito', system-ui, -apple-system, sans-serif;
   --font-body: 'Nunito', system-ui, -apple-system, sans-serif;
 
   /* Radii */

@@ -118,6 +118,12 @@
   background: var(--bg-sand);
 }
 
+.icon-btn.is-active {
+  background: var(--amber-gold-soft);
+  border-color: var(--amber-gold-dark);
+  color: var(--ink-primary);
+}
+
 /* Mode Switcher */
 .mode-nav {
   display: grid;

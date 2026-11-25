@@ -154,6 +154,20 @@
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
         osc.start(now);
         osc.stop(now + 0.45);
+      } else if (type === 'fanfare') {
+        const notes = [523.25, 659.25, 783.99, 1046.5];
+        notes.forEach((freq, i) => {
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.type = 'triangle';
+          o.frequency.setValueAtTime(freq, now + i * 0.09);
+          g.gain.setValueAtTime(0.16, now + i * 0.09);
+          g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.09 + 0.28);
+          o.connect(g);
+          g.connect(audioCtx.destination);
+          o.start(now + i * 0.09);
+          o.stop(now + i * 0.09 + 0.3);
+        });
       } else if (type === 'error') {
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(220, now);
@@ -180,6 +194,40 @@
     } catch (_) {
       // Fallback némán
     }
+  }
+
+  const MOTIVATIONAL_SUCCESS = [
+    'Szuper stratégia! Így gondolkodik egy igazi mesterkovács!',
+    'Fantasztikus megfigyelés! Egyre ügyesebb vagy!',
+    'Bravó! Alaposan végiggondoltad, és meglett az eredménye!',
+    'Csodás munka! Minden részletre figyeltél!',
+    'Ügyesen kizártad a hibás formákat! Igazi logikabajnok vagy!',
+    'Remek! Látom, hogy pontosan követted a szabályt!',
+  ];
+
+  const MOTIVATIONAL_RETRY = [
+    'Semmi baj, a próba segít rájönni! Nézzük meg még egyszer!',
+    'Közel jársz! Egy apró részletet figyelj meg újra!',
+    'Ügyesen próbálkozol! Nézd meg a formák színét és alakját is!',
+  ];
+
+  function pickRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function speakMotivationalSuccess() {
+    if (state.stars > 0 && state.stars % 5 === 0) {
+      playTone('fanfare');
+      speakHu(`Hűha! Már ${state.stars} csillagot gyűjtöttél! Igazi mesterkovács vagy!`);
+    } else {
+      playTone('success');
+      speakHu(pickRandom(MOTIVATIONAL_SUCCESS));
+    }
+  }
+
+  function speakMotivationalRetry(customMsg) {
+    playTone('error');
+    speakHu(customMsg || pickRandom(MOTIVATIONAL_RETRY));
   }
 
   /* ========================================================================
@@ -406,11 +454,157 @@
   ];
 
   /* ========================================================================
+     3b. Végtelen Műhely — Eljárási Pályagenerátor (48 elemű Dienes-készlet)
+     ======================================================================== */
+  function buildFullDienesDeck() {
+    const deck = [];
+    let idx = 1;
+    Object.keys(COLORS).forEach((color) => {
+      Object.keys(SHAPES).forEach((shape) => {
+        Object.keys(SIZES).forEach((size) => {
+          Object.keys(FILLS).forEach((fill) => {
+            deck.push({ id: `gen_${idx++}`, color, shape, size, fill });
+          });
+        });
+      });
+    });
+    return deck;
+  }
+
+  function shuffle(arr) {
+    const copy = arr.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function conditionTextHu(cond) {
+    let base = '';
+    if (cond.key === 'color') base = COLORS[cond.val].label.toUpperCase();
+    else if (cond.key === 'shape') base = SHAPES[cond.val].label.toUpperCase();
+    else if (cond.key === 'size') base = SIZES[cond.val].label.toUpperCase();
+    else if (cond.key === 'fill') base = FILLS[cond.val].label.toUpperCase();
+    return cond.negate ? `NEM ${base}` : base;
+  }
+
+  function randomCondition(allowedKeys, allowNegate) {
+    const key = pickRandom(allowedKeys);
+    let val = '';
+    if (key === 'color') val = pickRandom(Object.keys(COLORS));
+    else if (key === 'shape') val = pickRandom(Object.keys(SHAPES));
+    else if (key === 'size') val = pickRandom(Object.keys(SIZES));
+    else if (key === 'fill') val = pickRandom(Object.keys(FILLS));
+
+    const canNegate = allowNegate && (key === 'color' || key === 'shape');
+    const negate = canNegate ? Math.random() < 0.35 : false;
+    return { key, val, negate };
+  }
+
+  function generateInfiniteLevel(mode, roundNum) {
+    const deck = shuffle(buildFullDienesDeck());
+
+    if (mode === 'anvil') {
+      const numConds = roundNum <= 2 ? 1 : roundNum <= 5 ? 2 : 3;
+      const keys = shuffle(['color', 'shape', 'size', 'fill']).slice(0, numConds);
+      const conditions = keys.map((k) => randomCondition([k], roundNum >= 2));
+
+      const matching = deck.filter((t) => matchesRule(t, conditions));
+      const nonMatching = deck.filter((t) => !matchesRule(t, conditions));
+      const matchCount = Math.min(matching.length, 2 + Math.floor(Math.random() * 2)); // 2-3 jó
+      const tokens = shuffle([
+        ...matching.slice(0, matchCount),
+        ...nonMatching.slice(0, 6 - matchCount),
+      ]);
+
+      const ruleText = conditions.map(conditionTextHu).join(' és ');
+      return {
+        title: `∞ Végtelen Műhely — ${roundNum}. kör`,
+        prompt: `Tedd az üllőre: ${ruleText}!`,
+        speech: `Végtelen kör! Tedd az üllőre azokat, amelyek: ${ruleText}!`,
+        conditions,
+        tokens,
+      };
+    }
+
+    if (mode === 'venn') {
+      const keys = shuffle(['color', 'shape', 'size', 'fill']).slice(0, 2);
+      const leftRule = randomCondition([keys[0]], false);
+      const rightRule = randomCondition([keys[1]], false);
+
+      const bBoth = deck.filter((t) => matchesCondition(t, leftRule) && matchesCondition(t, rightRule));
+      const bLeft = deck.filter((t) => matchesCondition(t, leftRule) && !matchesCondition(t, rightRule));
+      const bRight = deck.filter((t) => !matchesCondition(t, leftRule) && matchesCondition(t, rightRule));
+      const bOut = deck.filter((t) => !matchesCondition(t, leftRule) && !matchesCondition(t, rightRule));
+
+      const picked = [
+        ...bBoth.slice(0, 2),
+        ...bLeft.slice(0, 1),
+        ...bRight.slice(0, 2),
+        ...bOut.slice(0, 1),
+      ].slice(0, 6);
+
+      const lTxt = conditionTextHu(leftRule);
+      const rTxt = conditionTextHu(rightRule);
+      return {
+        title: `∞ Végtelen Karikák — ${roundNum}. kör`,
+        prompt: `Balra: ${lTxt} · Középre: mindkettő · Jobbra: ${rTxt}`,
+        speech: `Rendezd a karikákba! Balra: ${lTxt}, jobbra: ${rTxt}, középre pedig ami mindkettő!`,
+        leftRule,
+        rightRule,
+        tokens: shuffle(picked),
+      };
+    }
+
+    // Secret Mode
+    const numConds = roundNum <= 2 ? 1 : 2;
+    const keys = shuffle(['color', 'shape', 'size', 'fill']).slice(0, numConds);
+    const secretConditions = keys.map((k) => randomCondition([k], numConds === 1 && roundNum >= 2));
+
+    const sig = (conds) =>
+      deck.map((t) => (matchesRule(t, conds) ? '1' : '0')).join('');
+    const targetSig = sig(secretConditions);
+
+    const distractors = [];
+    let guard = 0;
+    while (distractors.length < 2 && guard < 60) {
+      guard++;
+      const dKeys = shuffle(['color', 'shape', 'size', 'fill']).slice(0, numConds);
+      const cand = dKeys.map((k) => randomCondition([k], numConds === 1));
+      const cSig = sig(cand);
+      if (cSig !== targetSig && !distractors.some((d) => sig(d) === cSig)) {
+        distractors.push(cand);
+      }
+    }
+
+    const allChoices = shuffle([secretConditions, ...distractors]);
+    const correctIndex = allChoices.indexOf(secretConditions);
+
+    const matching = deck.filter((t) => matchesRule(t, secretConditions));
+    const nonMatching = deck.filter((t) => !matchesRule(t, secretConditions));
+    const tokens = shuffle([...matching.slice(0, 2), ...nonMatching.slice(0, 3)]);
+
+    return {
+      title: `∞ Végtelen Rejtély — ${roundNum}. kör`,
+      prompt: 'Tesztelj formákat a varázsüllőn, és fejtsd meg a titkos szabályt!',
+      speech: 'Új titkos szabály! Próbálj ki formákat az üllőn, és válaszd ki lent a megfelelőt!',
+      secretConditions,
+      choices: allChoices,
+      correctIndex,
+      tokens,
+    };
+  }
+
+  /* ========================================================================
      4. Játékállapot & DOM Hivatkozások
      ======================================================================== */
   const state = {
     mode: 'anvil', // 'anvil' | 'venn' | 'secret'
     levelIdx: { anvil: 0, venn: 0, secret: 0 },
+    infiniteMode: false,
+    infiniteRound: { anvil: 1, venn: 1, secret: 1 },
+    generatedLevel: null,
     stars: Number(localStorage.getItem('kovacs_stars') || 0),
     attempts: 3,
     placements: {}, // tokenId -> zoneName
@@ -422,6 +616,7 @@
 
   const els = {
     starCount: document.getElementById('star-count-value'),
+    btnInfiniteMode: document.getElementById('btn-infinite-mode'),
     btnReplayVoice: document.getElementById('btn-replay-voice'),
     btnToggleSound: document.getElementById('btn-toggle-sound'),
     modeTabs: document.querySelectorAll('.mode-tab'),
@@ -454,6 +649,9 @@
   }
 
   function getCurrentLevel() {
+    if (state.infiniteMode) {
+      return state.generatedLevel;
+    }
     if (state.mode === 'anvil') return ANVIL_LEVELS[state.levelIdx.anvil];
     if (state.mode === 'venn') return VENN_LEVELS[state.levelIdx.venn];
     return SECRET_LEVELS[state.levelIdx.secret];
@@ -474,6 +672,12 @@
      6. Szint Betöltése & Renderelés
      ======================================================================== */
   function loadLevel() {
+    if (state.infiniteMode) {
+      state.generatedLevel = generateInfiniteLevel(
+        state.mode,
+        state.infiniteRound[state.mode]
+      );
+    }
     const lvl = getCurrentLevel();
     state.attempts = 3;
     state.placements = {};
@@ -872,11 +1076,10 @@
     });
 
     if (wrongTokens.length === 0 && missingCount === 0) {
-      playTone('success');
       addStars(1);
       state.levelCompleted = true;
       setFeedback('Szuper megfigyelés! Minden pontosan a szabály szerint került az üllőre!', 'success');
-      speakHu('Szuper megfigyelés! Ügyesen válogattál!');
+      speakMotivationalSuccess();
       document.querySelectorAll('#tokens-anvil .dienes-token').forEach((el) => el.classList.add('is-correct'));
       renderActionButtons();
       return;
@@ -884,7 +1087,6 @@
 
     state.attempts--;
     updateAttemptsUI();
-    playTone('error');
 
     // Hibás formák visszapattannak a ládába
     wrongTokens.forEach((t) => {
@@ -894,13 +1096,13 @@
 
     if (wrongTokens.length > 0 && missingCount > 0) {
       setFeedback('Néhány forma nem illett ide, és maradt még jó forma a ládában is!', 'warn');
-      speakHu('Néhány forma nem illett ide, és maradt még jó forma a ládában!');
+      speakMotivationalRetry('Néhány forma nem illett ide, és maradt még jó forma a ládában!');
     } else if (wrongTokens.length > 0) {
       setFeedback('Hoppsz! Amelyik visszapattant, annál figyelj újra a szabályra!', 'warn');
-      speakHu('Amelyik visszapattant, annál nézd meg újra a szabályt!');
+      speakMotivationalRetry();
     } else {
       setFeedback(`Majdnem megvan! Még ${missingCount} jó forma lapul a ládában.`, 'warn');
-      speakHu(`Majdnem megvan! Még ${missingCount} jó forma maradt a ládában.`);
+      speakMotivationalRetry(`Majdnem megvan! Még ${missingCount} jó forma maradt a ládában.`);
     }
 
     if (state.attempts <= 0) {
@@ -935,25 +1137,23 @@
     });
 
     if (wrongIds.length === 0) {
-      playTone('success');
       addStars(1);
       state.levelCompleted = true;
       setFeedback('Halmaz-mester vagy! A metszetbe is tökéletesen válogattál!', 'success');
-      speakHu('Halmaz mester vagy! Minden a helyére került!');
+      speakMotivationalSuccess();
       renderActionButtons();
       return;
     }
 
     state.attempts--;
     updateAttemptsUI();
-    playTone('error');
 
     wrongIds.forEach((id) => {
       state.placements[id] = 'tray';
     });
     renderAllTokens(lvl);
     setFeedback(`${wrongIds.length} forma rossz helyen volt, visszakerült a ládába. Nézd meg újra!`, 'warn');
-    speakHu('Néhány forma rossz helyen volt. Próbáld meg újra!');
+    speakMotivationalRetry();
 
     if (state.attempts <= 0) {
       state.attempts = 3;
@@ -989,23 +1189,37 @@
     }
 
     if (state.secretSelectedChoice === lvl.correctIndex) {
-      playTone('success');
       addStars(1);
       state.levelCompleted = true;
       setFeedback('Kinyílt a láda! Remekül kikövetkeztetted a próbákból a szabályt!', 'success');
-      speakHu('Kinyílt a láda! Remekül következtettél!');
+      speakMotivationalSuccess();
       renderActionButtons();
     } else {
-      playTone('error');
       setFeedback('Ez most nem nyitotta ki a ládát. Tesztelj még egy formát az üllőn!', 'warn');
-      speakHu('Ez nem jó kulcs. Tesztelj még egy formát!');
+      speakMotivationalRetry('Ez most nem nyitotta ki a ládát. Tesztelj még egy formát!');
     }
   }
 
+  function syncInfiniteButtonUI() {
+    els.btnInfiniteMode.classList.toggle('is-active', state.infiniteMode);
+    els.btnInfiniteMode.setAttribute('aria-pressed', String(state.infiniteMode));
+  }
+
   function goNextLevel() {
+    if (state.infiniteMode) {
+      state.infiniteRound[state.mode]++;
+      loadLevel();
+      return;
+    }
     const lists = { anvil: ANVIL_LEVELS, venn: VENN_LEVELS, secret: SECRET_LEVELS };
     const list = lists[state.mode];
-    state.levelIdx[state.mode] = (state.levelIdx[state.mode] + 1) % list.length;
+    if (state.levelIdx[state.mode] + 1 >= list.length) {
+      state.infiniteMode = true;
+      state.infiniteRound[state.mode] = 1;
+      syncInfiniteButtonUI();
+    } else {
+      state.levelIdx[state.mode]++;
+    }
     loadLevel();
   }
 
@@ -1020,6 +1234,12 @@
       els.modeTabs.forEach((t) => t.classList.toggle('is-active', t.dataset.mode === nextMode));
       loadLevel();
     });
+  });
+
+  els.btnInfiniteMode.addEventListener('click', () => {
+    state.infiniteMode = !state.infiniteMode;
+    syncInfiniteButtonUI();
+    loadLevel();
   });
 
   els.btnReplayVoice.addEventListener('click', () => {
