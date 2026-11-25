@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mérleg-Vásár — Logika Műhely</title>
+  <meta name="description" content="Varga Tamás felfedeztető matematikájára épülő kétkarú mérleges logikai játék elsősöknek.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="market-body">
+  <header class="workshop-header">
+    <div class="container workshop-header-inner">
+      <div class="header-left">
+        <a href="../index.html" class="back-link" id="btn-back-home">← Főoldal</a>
+        <h1 class="workshop-title">⚖️ Mérleg-Vásár</h1>
+      </div>
+
+      <div class="header-controls">
+        <span class="stat-pill" id="star-counter" aria-label="Összegyűjtött csillagok">
+          ⭐ <span id="star-count-value">0</span>
+        </span>
+        <button type="button" class="icon-btn" id="btn-infinite-mode" aria-pressed="false" title="Végtelen gyakorlás be/ki">
+          ∞ <span class="btn-label">Végtelen</span>
+        </button>
+        <button type="button" class="icon-btn" id="btn-replay-voice" title="Feladat meghallgatása újra">
+          🗣️ <span class="btn-label">Hallgasd</span>
+        </button>
+        <button type="button" class="icon-btn" id="btn-toggle-sound" aria-pressed="true" title="Hang ki/be">
+          🔊
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container workshop-main">
+    <nav class="mode-nav" aria-label="Játékmódok">
+      <button type="button" class="mode-tab is-active" id="tab-mode-balance" data-mode="balance">
+        <span>⚖️</span>
+        <span>1. Egyensúly</span>
+      </button>
+      <button type="button" class="mode-tab" id="tab-mode-chain" data-mode="chain">
+        <span>🔗</span>
+        <span>2. Hármas Lánc</span>
+      </button>
+      <button type="button" class="mode-tab" id="tab-mode-mystery" data-mode="mystery">
+        <span>🎭</span>
+        <span>3. Kendő Alatt</span>
+      </button>
+    </nav>
+
+    <section class="game-panel" aria-live="polite">
+      <div class="prompt-bar">
+        <div class="prompt-left">
+          <div class="guide-avatar" aria-hidden="true">🦉</div>
+          <div>
+            <span class="level-badge" id="level-badge">1. feladat</span>
+            <p class="prompt-instruction" id="prompt-instruction">Töltsük be a vásárt…</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Equivalence Clues -->
+      <div class="clues-row" id="clues-row" aria-label="Csere-szabályok"></div>
+
+      <!-- Interactive Scale -->
+      <div class="scale-stage">
+        <div class="scale-status-pill" id="scale-status-pill">⚖️ Mérlegeljünk!</div>
+
+        <div class="scale-visual">
+          <div class="scale-beam-wrap" id="scale-beam">
+            <div class="scale-pan" id="left-pan">
+              <span class="scale-pan-title" id="left-pan-title">Bal serpenyő</span>
+              <div class="pan-items" id="left-pan-items"></div>
+            </div>
+            <div aria-hidden="true"></div>
+            <div class="scale-pan" id="right-pan">
+              <span class="scale-pan-title" id="right-pan-title">Jobb serpenyő (koppints a kivételhez)</span>
+              <div class="pan-items" id="right-pan-items"></div>
+            </div>
+          </div>
+
+          <div class="scale-fulcrum" aria-hidden="true">
+            <div class="fulcrum-pillar"></div>
+            <div class="fulcrum-base"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Market Shelf -->
+      <div class="shelf-box">
+        <p class="shelf-title" id="shelf-title">🧺 Koppints egy árucikkre, hogy a jobb serpenyőbe tedd:</p>
+        <div class="market-shelf" id="market-shelf"></div>
+      </div>
+
+      <!-- Action & Feedback -->
+      <div class="action-bar">
+        <div class="feedback-banner" id="feedback-banner">
+          <span>💡</span>
+          <span id="feedback-text">Tegyél árukat a serpenyőbe, amíg egyensúlyba nem kerül!</span>
+        </div>
+        <div class="action-buttons" id="action-buttons"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
