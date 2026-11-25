@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logika Műhely — Játékos logikafejlesztő 1. osztályosoknak</title>
+  <meta name="description" content="Bizonyított magyar és nemzetközi módszereken alapuló, olvasásmentes logikai játékok elsős kisiskolásoknak minden eszközre.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" id="brand-home-link">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-title">Logika Műhely</span>
+          <span class="brand-subtitle">Játékos gondolkodásfejlesztő</span>
+        </span>
+      </a>
+      <div class="header-meta">
+        <span class="age-tag">🎒 1. osztály (6–7 év)</span>
+        <span class="age-tag">📱 Mobil · Tablet · Gép</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-card">
+        <div>
+          <h1 id="hero-heading">Logikai játékok, ahol a gondolkodás a kaland</h1>
+          <p class="hero-lead">
+            Minden játék kifejezetten <strong>első osztályos magyar kisiskolásoknak</strong> készült: magyar hangalámondással, olvasási kényszer nélkül, érintőképernyőn és számítógépen egyaránt könnyen kezelhetően.
+          </p>
+          <div class="hero-actions">
+            <a href="kovacs-muhelye/index.html" class="btn btn-primary" id="hero-play-kovacs">
+              🔨 Induljon a Kovács Műhelye!
+            </a>
+            <a href="#jatekok-lista" class="btn btn-secondary" id="hero-browse-apps">
+              Összes játék megtekintése
+            </a>
+          </div>
+        </div>
+
+        <aside class="hero-pillars" aria-label="Pedagógiai alapelvek">
+          <div class="pillar-item">
+            <span class="pillar-icon" aria-hidden="true">🧩</span>
+            <div>
+              <strong>Dienes &amp; Varga Tamás módszer</strong>
+              Tapasztalati, felfedeztető logika kézzel fogható formákkal.
+            </div>
+          </div>
+          <div class="pillar-item">
+            <span class="pillar-icon" aria-hidden="true">🔊</span>
+            <div>
+              <strong>Olvasásmentes felület</strong>
+              Minden feladat meghallgatható magyarul, tiszta ikonokkal.
+            </div>
+          </div>
+          <div class="pillar-item">
+            <span class="pillar-icon" aria-hidden="true">🎯</span>
+            <div>
+              <strong>Találgatás helyett gondolkodás</strong>
+              Előrejelzés, hibakeresés és a stratégia dicsérete.
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="jatekok-lista" aria-labelledby="apps-section-title">
+      <div class="section-heading">
+        <h2 id="apps-section-title">Fejlesztő játékaink</h2>
+        <p>6 egyedi világ a logikus gondolkodás minden területére</p>
+      </div>
+
+      <div class="apps-grid">
+        <!-- 1. Kovács Műhelye (LIVE) -->
+        <article class="app-card is-live" id="card-kovacs-muhelye">
+          <div class="app-card-top">
+            <div class="app-emblem emblem-forge" aria-hidden="true">🔨</div>
+            <span class="status-label status-live">Elérhető</span>
+          </div>
+          <h3>Kovács Műhelye</h3>
+          <p class="app-card-desc">
+            Válogass mágikus formákat az üllőn, töltsd meg a bűvös halmazkarikákat, és fejtsd meg a kovácsmester titkos szabályait!
+          </p>
+          <div class="app-skills">
+            <span class="skill-chip">Halmazok</span>
+            <span class="skill-chip">Tagadás (NEM)</span>
+            <span class="skill-chip">Szabályfelismerés</span>
+          </div>
+          <div class="app-method">
+            <strong>Módszer:</strong> Dienes logikai készlet &amp; CPA-elv
+          </div>
+          <a href="kovacs-muhelye/index.html" class="btn btn-primary" id="btn-launch-kovacs">
+            Játék indítása →
+          </a>
+        </article>
+
+        <!-- 2. Bűvös Útvesztő -->
+        <article class="app-card is-upcoming" id="card-buvos-utveszto">
+          <div class="app-card-top">
+            <div class="app-emblem emblem-path" aria-hidden="true">🐓</div>
+            <span class="status-label status-soon">Hamarosan</span>
+          </div>
+          <h3>Bűvös Útvesztő</h3>
+          <p class="app-card-desc">
+            Rakj le lépésköveket a kiskakasnak a meseerdőben, és javítsd ki a manók által elrontott útvonalakat elindulás előtt!
+          </p>
+          <div class="app-skills">
+            <span class="skill-chip">Sorrendiség</span>
+            <span class="skill-chip">Hibakeresés</span>
+            <span class="skill-chip">Ha… akkor…</span>
+          </div>
+          <div class="app-method">
+            <strong>Módszer:</strong> CS Unplugged &amp; Pólya-lépések
+          </div>
+          <button type="button" class="btn btn-disabled" disabled>Fejlesztés alatt</button>
+        </article>
+
+        <!-- 3. Mérleg-Vásár -->
+        <article class="app-card is-upcoming" id="card-merleg-vasar">
+          <div class="app-card-top">
+            <div class="app-emblem emblem-scale" aria-hidden="true">⚖️</div>
+            <span class="status-label status-soon">Hamarosan</span>
+          </div>
+          <h3>Mérleg-Vásár</h3>
+          <p class="app-card-desc">
+            Egyensúlyozz varázslatos kétkarú mérlegeken baglyokkal, almákkal és mogyoróval, és találd ki, mi rejtőzik a kendő alatt!
+          </p>
+          <div class="app-skills">
+            <span class="skill-chip">Egyenértékűség</span>
+            <span class="skill-chip">Következtetés</span>
+            <span class="skill-chip">Arányérzék</span>
+          </div>
+          <div class="app-method">
+            <strong>Módszer:</strong> Varga Tamás felfedeztető matematika
+          </div>
+          <button type="button" class="btn btn-disabled" disabled>Fejlesztés alatt</button>
+        </article>
+
+        <!-- 4. Szabály-Kaméleon -->
+        <article class="app-card is-upcoming" id="card-szabaly-kameleon">
+          <div class="app-card-top">
+            <div class="app-emblem emblem-chameleon" aria-hidden="true">🦎</div>
+            <span class="status-label status-soon">Hamarosan</span>
+          </div>
+          <h3>Szabály-Kaméleon</h3>
+          <p class="app-card-desc">
+            A dzsungel törvénye váratlanul megváltozik! Figyeld a visszajelzéseket, és válts gyorsan színről formára vagy fordítva.
+          </p>
+          <div class="app-skills">
+            <span class="skill-chip">Rugalmas váltás</span>
+            <span class="skill-chip">Gátlás-kontroll</span>
+            <span class="skill-chip">Figyelem</span>
+          </div>
+          <div class="app-method">
+            <strong>Módszer:</strong> Végrehajtó funkció (Executive Function) tréning
+          </div>
+          <button type="button" class="btn btn-disabled" disabled>Fejlesztés alatt</button>
+        </article>
+
+        <!-- 5. Tükör-Vár -->
+        <article class="app-card is-upcoming" id="card-tukor-var">
+          <div class="app-card-top">
+            <div class="app-emblem emblem-mirror" aria-hidden="true">🏰</div>
+            <span class="status-label status-soon">Hamarosan</span>
+          </div>
+          <h3>Tükör-Vár</h3>
+          <p class="app-card-desc">
+            Építsd újjá a vár üvegablakait varázstükrök, árnyjátékok és fejben forgatott fakockák segítségével!
+          </p>
+          <div class="app-skills">
+            <span class="skill-chip">Szimmetria</span>
+            <span class="skill-chip">Térbeli forgatás</span>
+            <span class="skill-chip">Árnyék-vetítés</span>
+          </div>
+          <div class="app-method">
+            <strong>Módszer:</strong> Térbeli-vizuális munkamemória fejlesztés
+          </div>
+          <button type="button" class="btn btn-disabled" disabled>Fejlesztés alatt</button>
+        </article>
+
+        <!-- 6. Ki A Bűnös? — Erdei Nyomozó -->
+        <article class="app-card is-upcoming" id="card-erdei-nyomozo">
+          <div class="app-card-top">
+            <div class="app-emblem emblem-detective" aria-hidden="true">🦊</div>
+            <span class="status-label status-soon">Hamarosan</span>
+          </div>
+          <h3>Erdei Nyomozó</h3>
+          <p class="app-card-desc">
+            Ki ette meg a mézet? Hallgasd meg az állatok rövid nyomait, pipáld ki a táblán a gyanúsítottakat, és leplezd le a füllentő szarkát!
+          </p>
+          <div class="app-skills">
+            <span class="skill-chip">Kizárásos logika</span>
+            <span class="skill-chip">Ellentmondás</span>
+            <span class="skill-chip">Hallásértés</span>
+          </div>
+          <div class="app-method">
+            <strong>Módszer:</strong> Kettős kódolás &amp; szókratészi kizárás
+          </div>
+          <button type="button" class="btn btn-disabled" disabled>Fejlesztés alatt</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span><strong>Logika Műhely</strong> — Első osztályos logikafejlesztő gyűjtemény</span>
+      <span>Működik mobilon, tableten, interaktív táblán és számítógépen</span>
+    </div>
+  </footer>
+</body>
+</html>
