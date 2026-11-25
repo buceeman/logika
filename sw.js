@@ -1,4 +1,4 @@
-const CACHE_NAME = 'logika-muhely-v4';
+const CACHE_NAME = 'logika-muhely-v5';
 const ASSETS = [
   './',
   './index.html',
@@ -24,6 +24,9 @@ const ASSETS = [
   './erdei-nyomozo/index.html',
   './erdei-nyomozo/styles.css?v=3',
   './erdei-nyomozo/app.js?v=3',
+  './postas-suni/index.html',
+  './postas-suni/styles.css?v=4',
+  './postas-suni/app.js?v=4',
 ];
 
 self.addEventListener('install', (event) => {

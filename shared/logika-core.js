@@ -14,6 +14,7 @@
     { key: 'kameleon', starKey: 'kameleon_stars', name: 'Szabály-Kaméleon', emoji: '🦎', badge: 'Dzsungel-detektív', skill: 'Rugalmas váltás & figyelem' },
     { key: 'tukor', starKey: 'tukor_stars', name: 'Tükör-Vár', emoji: '🏰', badge: 'Térlátó lovag', skill: 'Szimmetria & térbeli forgatás' },
     { key: 'nyomozo', starKey: 'nyomozo_stars', name: 'Erdei Nyomozó', emoji: '🦊', badge: 'Főnyomozó', skill: 'Kizárás & ellentmondás' },
+    { key: 'suni', starKey: 'suni_stars', name: 'Postás Süni', emoji: '🦔', badge: 'Gráf-bajnok', skill: 'Gráfelmélet & útvonal-tervezés' },
   ];
 
   const STATS_KEY = 'logika_stats';

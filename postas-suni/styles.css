@@ -1,0 +1,368 @@
+/* ==========================================================================
+   Postás Süni — Graph Theory, Eulerian & Hamiltonian Path Styles
+   ========================================================================== */
+
+.suni-body {
+  background-color: var(--bg-parchment);
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(56, 125, 90, 0.10) 0%, transparent 50%),
+    radial-gradient(circle at 85% 80%, rgba(45, 95, 154, 0.09) 0%, transparent 45%);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.workshop-header {
+  background: var(--bg-cream);
+  border-bottom: 2px solid var(--border-warm);
+  padding: 0.65rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.workshop-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--bg-sand);
+  border: 1.5px solid var(--border-warm);
+  color: var(--ink-primary);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  background: #E8DEC9;
+}
+
+.workshop-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 42px;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--amber-gold-soft);
+  border: 1.5px solid #E9C685;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink-primary);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border-warm);
+  background: var(--bg-cream);
+  color: var(--ink-primary);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: var(--bg-sand);
+}
+
+.icon-btn.is-muted {
+  opacity: 0.65;
+  background: var(--bg-sand);
+}
+
+.icon-btn.is-active {
+  background: var(--amber-gold-soft);
+  border-color: var(--amber-gold-dark);
+}
+
+/* Mode Nav */
+.mode-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin: 1rem 0 0.85rem;
+}
+
+.mode-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 52px;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-warm);
+  background: var(--bg-cream);
+  color: var(--ink-secondary);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(0.88rem, 1.5vw, 1.02rem);
+  cursor: pointer;
+  box-shadow: 0 3px 0 var(--border-warm);
+  transition: all 140ms ease;
+}
+
+.mode-tab.is-active {
+  background: var(--forge-ember-dark);
+  color: #FFFFFF;
+  border-color: var(--forge-ember-dark);
+  box-shadow: 0 3px 0 #7C2615;
+}
+
+.workshop-main {
+  flex: 1;
+  padding-bottom: 2rem;
+}
+
+.game-panel {
+  background: var(--bg-cream);
+  border: 2px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.prompt-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background: var(--bg-sand);
+  border: 1.5px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.1rem;
+}
+
+.prompt-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1;
+  min-width: 220px;
+}
+
+.guide-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: var(--forge-ember-soft);
+  border: 2px solid #F0B6A8;
+  display: grid;
+  place-items: center;
+  font-size: 1.65rem;
+  flex-shrink: 0;
+}
+
+.level-badge {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--forge-ember-dark);
+  display: block;
+}
+
+.prompt-instruction {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-weight: 600;
+  color: var(--ink-primary);
+  margin: 0;
+}
+
+/* Graph Canvas Stage */
+.graph-stage {
+  background: #E9F2E6;
+  border: 2.5px solid #B7D3AE;
+  border-radius: var(--radius-lg);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.graph-stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--ink-secondary);
+}
+
+.graph-pill {
+  background: var(--bg-cream);
+  border: 1.5px solid var(--border-warm);
+  padding: 0.28rem 0.8rem;
+  border-radius: var(--radius-pill);
+}
+
+.graph-svg {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.graph-edge {
+  stroke: #B89B74;
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-dasharray: 10 8;
+  transition: stroke 180ms ease, stroke-dasharray 180ms ease;
+}
+
+.graph-edge.is-crossed {
+  stroke: var(--sage-green);
+  stroke-dasharray: none;
+}
+
+.graph-edge.is-highlight {
+  stroke: var(--amber-gold);
+}
+
+.graph-node-group {
+  cursor: pointer;
+}
+
+.graph-node-circle {
+  fill: var(--bg-cream);
+  stroke: var(--border-strong);
+  stroke-width: 3.5;
+  transition: fill 140ms ease, stroke 140ms ease, transform 140ms ease;
+}
+
+.graph-node-group.is-reachable .graph-node-circle {
+  stroke: var(--amber-gold-dark);
+  stroke-width: 4.5;
+  fill: #FFF8E3;
+}
+
+.graph-node-group.is-visited .graph-node-circle {
+  fill: var(--sage-green-soft);
+  stroke: var(--sage-green);
+}
+
+.graph-node-group.is-current .graph-node-circle {
+  fill: var(--amber-gold-soft);
+  stroke: var(--forge-ember);
+  stroke-width: 5;
+}
+
+.judge-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+/* Action Bar */
+.action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.feedback-banner {
+  flex: 1;
+  min-width: 220px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.96rem;
+  background: var(--bg-sand);
+  color: var(--ink-secondary);
+}
+
+.feedback-banner.is-success {
+  background: var(--sage-green-soft);
+  color: var(--sage-green-dark);
+  border: 1.5px solid #A8D7BE;
+}
+
+.feedback-banner.is-warn {
+  background: var(--forge-ember-soft);
+  color: var(--forge-ember-dark);
+  border: 1.5px solid #F0B6A8;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .mode-nav {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+  }
+  .mode-tab {
+    min-height: 46px;
+    justify-content: flex-start;
+    padding: 0.55rem 0.9rem;
+  }
+  .action-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .action-buttons .btn {
+    flex: 1;
+  }
+}
