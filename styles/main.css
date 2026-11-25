@@ -491,6 +491,56 @@ a {
 }
 
 /* ==========================================================================
+   Shared Difficulty Selector (All Apps)
+   ========================================================================== */
+.difficulty-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--bg-sand);
+  border: 1.5px solid var(--border-warm);
+  padding: 0.25rem;
+  border-radius: var(--radius-pill);
+  flex-wrap: wrap;
+}
+
+.diff-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 36px;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  color: var(--ink-secondary);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease;
+}
+
+.diff-btn:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.diff-btn.is-active[data-diff="easy"] {
+  background: var(--sage-green);
+  color: #FFFFFF;
+}
+
+.diff-btn.is-active[data-diff="medium"] {
+  background: var(--amber-gold-dark);
+  color: #FFFFFF;
+}
+
+.diff-btn.is-active[data-diff="hard"] {
+  background: var(--forge-ember);
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 .site-footer {

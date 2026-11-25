@@ -577,7 +577,8 @@
   }
 
   function generateInfiniteMaze(mode, roundNum) {
-    const size = roundNum <= 2 ? 4 : roundNum <= 6 ? 5 : 6;
+    const diff = state.difficulty || 'medium';
+    const size = diff === 'easy' ? 4 : diff === 'medium' ? 5 : 6;
     const allowMushroom = mode === 'mushroom';
 
     for (let attempt = 0; attempt < 120; attempt++) {
@@ -594,7 +595,7 @@
       if (dist < size - 1) continue;
 
       const obstacles = [];
-      const obsCount = size === 4 ? 4 : size === 5 ? 6 : 9;
+      const obsCount = diff === 'easy' ? 3 : diff === 'medium' ? 6 : 9;
       for (let i = 0; i < obsCount; i++) {
         const r = Math.floor(Math.random() * size);
         const c = Math.floor(Math.random() * size);
@@ -611,7 +612,8 @@
 
       if (mode === 'debug') {
         const buggy = path.slice();
-        const bugCount = roundNum >= 4 && buggy.length >= 5 ? 2 : 1;
+        const bugCount =
+          diff === 'easy' ? 1 : diff === 'medium' ? (buggy.length >= 5 ? 2 : 1) : Math.min(3, Math.max(2, Math.floor(buggy.length / 3)));
         const usedIdx = new Set();
         for (let b = 0; b < bugCount; b++) {
           let bugIdx = Math.floor(Math.random() * buggy.length);
@@ -912,10 +914,11 @@
     renderMaze();
     renderSequence();
 
+    const stepDelay = state.difficulty === 'easy' ? 420 : state.difficulty === 'hard' ? 260 : 350;
     for (let i = 0; i < state.steps.length; i++) {
       state.runningStepIdx = i;
       renderSequence();
-      await sleep(360);
+      await sleep(stepDelay);
 
       const cmd = state.steps[i];
       let nr = state.playerPos.r;
@@ -1080,6 +1083,26 @@
     }
   });
 
+  document.querySelectorAll('#difficulty-bar .diff-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (state.isRunning) return;
+      const nextDiff = btn.dataset.diff;
+      if (nextDiff === state.difficulty) return;
+      state.difficulty = nextDiff;
+      document.querySelectorAll('#difficulty-bar .diff-btn').forEach((b) => {
+        b.classList.toggle('is-active', b.dataset.diff === nextDiff);
+      });
+      if (!state.infiniteMode) {
+        const lists = { build: BUILD_LEVELS, debug: DEBUG_LEVELS, mushroom: MUSHROOM_LEVELS };
+        const len = lists[state.mode].length;
+        state.levelIdx[state.mode] =
+          nextDiff === 'easy' ? 0 : nextDiff === 'medium' ? Math.floor(len / 2) : len - 1;
+      }
+      loadLevel();
+    });
+  });
+
+  state.difficulty = 'medium';
   els.starCount.textContent = String(state.stars);
   loadLevel();
 })();

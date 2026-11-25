@@ -504,18 +504,21 @@
 
   function generateInfiniteLevel(mode, roundNum) {
     const deck = shuffle(buildFullDienesDeck());
+    const diff = state.difficulty || 'medium';
+    const tokenTotal = diff === 'easy' ? 5 : diff === 'medium' ? 6 : 8;
 
     if (mode === 'anvil') {
-      const numConds = roundNum <= 2 ? 1 : roundNum <= 5 ? 2 : 3;
+      const numConds = diff === 'easy' ? 1 : diff === 'medium' ? 2 : 3;
+      const allowNeg = diff !== 'easy';
       const keys = shuffle(['color', 'shape', 'size', 'fill']).slice(0, numConds);
-      const conditions = keys.map((k) => randomCondition([k], roundNum >= 2));
+      const conditions = keys.map((k) => randomCondition([k], allowNeg));
 
       const matching = deck.filter((t) => matchesRule(t, conditions));
       const nonMatching = deck.filter((t) => !matchesRule(t, conditions));
-      const matchCount = Math.min(matching.length, 2 + Math.floor(Math.random() * 2)); // 2-3 jó
+      const matchCount = Math.min(matching.length, diff === 'hard' ? 3 : 2 + Math.floor(Math.random() * 2));
       const tokens = shuffle([
         ...matching.slice(0, matchCount),
-        ...nonMatching.slice(0, 6 - matchCount),
+        ...nonMatching.slice(0, tokenTotal - matchCount),
       ]);
 
       const ruleText = conditions.map(conditionTextHu).join(' és ');
@@ -530,7 +533,7 @@
 
     if (mode === 'venn') {
       const keys = shuffle(['color', 'shape', 'size', 'fill']).slice(0, 2);
-      const leftRule = randomCondition([keys[0]], false);
+      const leftRule = randomCondition([keys[0]], diff === 'hard');
       const rightRule = randomCondition([keys[1]], false);
 
       const bBoth = deck.filter((t) => matchesCondition(t, leftRule) && matchesCondition(t, rightRule));
@@ -540,10 +543,10 @@
 
       const picked = [
         ...bBoth.slice(0, 2),
-        ...bLeft.slice(0, 1),
+        ...bLeft.slice(0, diff === 'hard' ? 2 : 1),
         ...bRight.slice(0, 2),
-        ...bOut.slice(0, 1),
-      ].slice(0, 6);
+        ...bOut.slice(0, diff === 'hard' ? 2 : 1),
+      ].slice(0, tokenTotal);
 
       const lTxt = conditionTextHu(leftRule);
       const rTxt = conditionTextHu(rightRule);
@@ -558,9 +561,10 @@
     }
 
     // Secret Mode
-    const numConds = roundNum <= 2 ? 1 : 2;
+    const numConds = diff === 'easy' ? 1 : 2;
+    const distractorCount = diff === 'hard' ? 3 : 2;
     const keys = shuffle(['color', 'shape', 'size', 'fill']).slice(0, numConds);
-    const secretConditions = keys.map((k) => randomCondition([k], numConds === 1 && roundNum >= 2));
+    const secretConditions = keys.map((k) => randomCondition([k], diff !== 'easy' && numConds === 1));
 
     const sig = (conds) =>
       deck.map((t) => (matchesRule(t, conds) ? '1' : '0')).join('');
@@ -568,10 +572,10 @@
 
     const distractors = [];
     let guard = 0;
-    while (distractors.length < 2 && guard < 60) {
+    while (distractors.length < distractorCount && guard < 80) {
       guard++;
       const dKeys = shuffle(['color', 'shape', 'size', 'fill']).slice(0, numConds);
-      const cand = dKeys.map((k) => randomCondition([k], numConds === 1));
+      const cand = dKeys.map((k) => randomCondition([k], diff !== 'easy' && numConds === 1));
       const cSig = sig(cand);
       if (cSig !== targetSig && !distractors.some((d) => sig(d) === cSig)) {
         distractors.push(cand);
@@ -657,14 +661,22 @@
     return SECRET_LEVELS[state.levelIdx.secret];
   }
 
+  function getMaxAttempts() {
+    if (state.difficulty === 'easy') return 4;
+    if (state.difficulty === 'hard') return 2;
+    return 3;
+  }
+
   function updateAttemptsUI() {
     if (state.mode === 'secret') {
-      const left = Math.max(0, 5 - state.secretLog.length);
+      const maxTests = state.difficulty === 'hard' ? 4 : 5;
+      const left = Math.max(0, maxTests - state.secretLog.length);
       els.attemptsDisplay.textContent = `🔍 ${left} próba`;
       return;
     }
+    const maxAtt = getMaxAttempts();
     const fires = '🔥'.repeat(Math.max(0, state.attempts));
-    const empty = '⚪'.repeat(Math.max(0, 3 - state.attempts));
+    const empty = '⚪'.repeat(Math.max(0, maxAtt - state.attempts));
     els.attemptsDisplay.textContent = fires + empty;
   }
 
@@ -679,7 +691,7 @@
       );
     }
     const lvl = getCurrentLevel();
-    state.attempts = 3;
+    state.attempts = getMaxAttempts();
     state.placements = {};
     state.selectedTokenId = null;
     state.secretLog = [];
@@ -1257,7 +1269,26 @@
     }
   });
 
+  document.querySelectorAll('#difficulty-bar .diff-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const nextDiff = btn.dataset.diff;
+      if (nextDiff === state.difficulty) return;
+      state.difficulty = nextDiff;
+      document.querySelectorAll('#difficulty-bar .diff-btn').forEach((b) => {
+        b.classList.toggle('is-active', b.dataset.diff === nextDiff);
+      });
+      if (!state.infiniteMode) {
+        const lists = { anvil: ANVIL_LEVELS, venn: VENN_LEVELS, secret: SECRET_LEVELS };
+        const len = lists[state.mode].length;
+        state.levelIdx[state.mode] =
+          nextDiff === 'easy' ? 0 : nextDiff === 'medium' ? Math.floor(len / 2) : len - 1;
+      }
+      loadLevel();
+    });
+  });
+
   // Kezdeti csillagszám és első pálya betöltése
+  state.difficulty = 'medium';
   els.starCount.textContent = String(state.stars);
   loadLevel();
 })();

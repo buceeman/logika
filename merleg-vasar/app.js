@@ -312,7 +312,8 @@
      3. Végtelen Generátor
      ======================================================================== */
   function generateInfiniteLevel(mode, roundNum) {
-    const baseRatio = Math.random() < 0.5 ? 2 : 3; // 1 alma = 2 vagy 3 mogyoró
+    const diff = state.difficulty || 'medium';
+    const baseRatio = diff === 'easy' ? 2 : diff === 'medium' ? (Math.random() < 0.5 ? 2 : 3) : (Math.random() < 0.5 ? 3 : 4);
     const midRatio = 2; // 1 méz = 2 alma
     const weights = {
       hazelnut: 1,
@@ -326,10 +327,18 @@
       { left: ['apple'], right: appleClueRight },
       { left: ['honey'], right: ['apple', 'apple'] },
     ];
+    if (diff === 'hard') {
+      clues.push({ left: ['owl'], right: ['honey', 'honey'] });
+    }
 
     if (mode === 'balance') {
-      const leftPool = roundNum <= 2 ? ['honey', 'apple'] : ['honey', 'apple', 'hazelnut'];
-      const count = roundNum <= 2 ? 2 : 3;
+      const leftPool =
+        diff === 'easy'
+          ? ['apple', 'hazelnut']
+          : diff === 'medium'
+            ? ['honey', 'apple', 'hazelnut']
+            : ['owl', 'honey', 'apple'];
+      const count = diff === 'easy' ? 2 : diff === 'medium' ? 3 : 3;
       const leftItems = [];
       for (let i = 0; i < count; i++) {
         leftItems.push(pickRandom(leftPool));
@@ -341,12 +350,13 @@
         weights,
         clues,
         leftItems,
-        shelf: ['honey', 'apple', 'hazelnut'],
+        shelf: diff === 'easy' ? ['apple', 'hazelnut'] : ['honey', 'apple', 'hazelnut'],
       };
     }
 
     if (mode === 'chain') {
-      const leftItems = roundNum <= 2 ? ['honey'] : ['honey', 'apple'];
+      const leftItems =
+        diff === 'easy' ? ['honey'] : diff === 'medium' ? ['honey', 'apple'] : ['owl'];
       return {
         title: `∞ Végtelen Lánc — ${roundNum}. kör`,
         prompt: 'Csak mogyoróval fizethetsz! Hány mogyoró ér fel vele?',
@@ -359,11 +369,19 @@
     }
 
     // Mystery mode
-    const hiddenWeight = pickRandom([1, 2, baseRatio, baseRatio + 1]);
-    const leftVisible = [pickRandom(['apple', 'hazelnut'])];
-    const totalNeeded = weights[leftVisible[0]] + hiddenWeight;
+    const hiddenPool =
+      diff === 'easy'
+        ? [1, 2]
+        : diff === 'medium'
+          ? [1, 2, baseRatio, baseRatio + 1]
+          : [baseRatio, baseRatio + 1, weights.honey];
+    const hiddenWeight = pickRandom(hiddenPool);
+    const leftVisible =
+      diff === 'hard'
+        ? [pickRandom(['apple', 'hazelnut']), 'hazelnut']
+        : [pickRandom(['apple', 'hazelnut'])];
+    const totalNeeded = sumWeight(leftVisible, weights) + hiddenWeight;
 
-    // Építsük fel a jobb oldalt mézből, almából és mogyoróból
     const rightKnown = [];
     let rem = totalNeeded;
     while (rem >= weights.honey) {
@@ -388,7 +406,7 @@
       leftVisible,
       rightKnown,
       hiddenWeight,
-      shelf: ['honey', 'apple', 'hazelnut'],
+      shelf: diff === 'easy' ? ['apple', 'hazelnut'] : ['honey', 'apple', 'hazelnut'],
     };
   }
 
@@ -711,6 +729,25 @@
     }
   });
 
+  document.querySelectorAll('#difficulty-bar .diff-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const nextDiff = btn.dataset.diff;
+      if (nextDiff === state.difficulty) return;
+      state.difficulty = nextDiff;
+      document.querySelectorAll('#difficulty-bar .diff-btn').forEach((b) => {
+        b.classList.toggle('is-active', b.dataset.diff === nextDiff);
+      });
+      if (!state.infiniteMode) {
+        const lists = { balance: BALANCE_LEVELS, chain: CHAIN_LEVELS, mystery: MYSTERY_LEVELS };
+        const len = lists[state.mode].length;
+        state.levelIdx[state.mode] =
+          nextDiff === 'easy' ? 0 : nextDiff === 'medium' ? Math.floor(len / 2) : len - 1;
+      }
+      loadLevel();
+    });
+  });
+
+  state.difficulty = 'medium';
   els.starCount.textContent = String(state.stars);
   loadLevel();
 })();
