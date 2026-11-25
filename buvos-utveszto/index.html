@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bűvös Útvesztő — Logika Műhely</title>
+  <meta name="description" content="Algoritmikus gondolkodás és hibakeresés elsősöknek: vezesd át a kiskakast a meseerdőn lépéskövekkel és javítsd ki a manó hibáit!">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="forest-body">
+  <header class="workshop-header">
+    <div class="container workshop-header-inner">
+      <div class="header-left">
+        <a href="../index.html" class="back-link" id="btn-back-home">← Főoldal</a>
+        <h1 class="workshop-title">🐓 Bűvös Útvesztő</h1>
+      </div>
+
+      <div class="header-controls">
+        <span class="stat-pill" id="star-counter" aria-label="Összegyűjtött csillagok">
+          ⭐ <span id="star-count-value">0</span>
+        </span>
+        <button type="button" class="icon-btn" id="btn-infinite-mode" aria-pressed="false" title="Végtelen gyakorlás be/ki">
+          ∞ <span class="btn-label">Végtelen</span>
+        </button>
+        <button type="button" class="icon-btn" id="btn-replay-voice" title="Feladat meghallgatása újra">
+          🗣️ <span class="btn-label">Hallgasd</span>
+        </button>
+        <button type="button" class="icon-btn" id="btn-toggle-sound" aria-pressed="true" title="Hang ki/be">
+          🔊
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container workshop-main">
+    <nav class="mode-nav" aria-label="Játékmódok">
+      <button type="button" class="mode-tab is-active" id="tab-mode-build" data-mode="build">
+        <span>🪨</span>
+        <span>1. Lépéskövek</span>
+      </button>
+      <button type="button" class="mode-tab" id="tab-mode-debug" data-mode="debug">
+        <span>👺</span>
+        <span>2. Manó-hiba</span>
+      </button>
+      <button type="button" class="mode-tab" id="tab-mode-mushroom" data-mode="mushroom">
+        <span>🍄</span>
+        <span>3. Varázsgomba</span>
+      </button>
+    </nav>
+
+    <section class="game-panel" aria-live="polite">
+      <div class="prompt-bar">
+        <div class="prompt-left">
+          <div class="guide-avatar" aria-hidden="true">🐓</div>
+          <div>
+            <span class="level-badge" id="level-badge">1. szint</span>
+            <p class="prompt-instruction" id="prompt-instruction">Töltsük be a meseerdőt…</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="maze-workspace">
+        <div class="maze-board-wrap">
+          <div class="maze-grid" id="maze-grid" role="grid" aria-label="Meseerdő pálya"></div>
+          <div class="maze-legend">
+            <span>🐓 Kiskakas</span>
+            <span>🪙 Kincs</span>
+            <span>💧 Pocsolya</span>
+            <span>🌿 Bokor</span>
+            <span id="legend-mushroom" style="display:none;">🍄 Gomba (átugorható)</span>
+          </div>
+        </div>
+
+        <div class="program-panel">
+          <p class="panel-subtitle">
+            <span>🪨 Lépéskövek (koppints rájuk!):</span>
+            <span id="step-count-label">0 lépés</span>
+          </p>
+
+          <div class="stone-palette" id="stone-palette">
+            <button type="button" class="cmd-btn" data-cmd="up" title="Felfelé">⬆️ Fel</button>
+            <button type="button" class="cmd-btn" data-cmd="down" title="Lefelé">⬇️ Le</button>
+            <button type="button" class="cmd-btn" data-cmd="left" title="Balra">⬅️ Balra</button>
+            <button type="button" class="cmd-btn" data-cmd="right" title="Jobbra">➡️ Jobbra</button>
+            <button type="button" class="cmd-btn is-jump" id="btn-cmd-jump" data-cmd="jump" style="display:none;" title="Ha gomba van előtted, ugorj!">🍄 Ugrás</button>
+          </div>
+
+          <div id="debug-hint-box" class="debug-hint-box" style="display:none;">
+            💡 Koppints a hibás lépéskőre lent, majd válassz helyette egy jót felül!
+          </div>
+
+          <p class="panel-subtitle" style="margin-top:0.25rem;">
+            <span>🗺️ Az útvonal terve:</span>
+            <button type="button" class="icon-btn" id="btn-clear-steps" style="min-height:34px; font-size:0.8rem;">🗑️ Töröl</button>
+          </p>
+
+          <div class="sequence-track" id="sequence-track" aria-label="Összeállított lépések"></div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <div class="feedback-banner" id="feedback-banner">
+          <span>💡</span>
+          <span id="feedback-text">Állítsd össze az utat, majd nyomd meg az Indulás gombot!</span>
+        </div>
+        <div class="action-buttons" id="action-buttons"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
