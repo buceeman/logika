@@ -148,7 +148,7 @@
      ======================================================================== */
   const BUILD_LEVELS = [
     {
-      title: '1. szint — Első lépések',
+      title: '1. térkép — Első lépések',
       prompt: 'Vezesd el a kiskakast az aranytallérhoz!',
       speech: 'Állíts össze lépésköveket, hogy a kiskakas eljusson az aranytallérhoz!',
       size: 4,
@@ -162,7 +162,7 @@
       initialSteps: [],
     },
     {
-      title: '2. szint — Kanyargós ösvény',
+      title: '2. térkép — Kanyargós ösvény',
       prompt: 'Kerüld ki a pocsolyákat és a bokrokat!',
       speech: 'Kerüld ki a pocsolyákat, és tervezd meg előre az utat!',
       size: 4,
@@ -177,7 +177,37 @@
       initialSteps: [],
     },
     {
-      title: '3. szint — Nagyobb erdő',
+      title: '3. térkép — Fentről lefelé',
+      prompt: 'Most felülről indulunk! Merre kell menni?',
+      speech: 'Most felülről indul a kiskakas! Merre kell mennie a kincshez?',
+      size: 4,
+      start: { r: 0, c: 0 },
+      goal: { r: 3, c: 3 },
+      obstacles: [
+        { r: 0, c: 2, type: 'P' },
+        { r: 1, c: 1, type: 'B' },
+        { r: 2, c: 2, type: 'P' },
+        { r: 3, c: 1, type: 'B' },
+      ],
+      initialSteps: [],
+    },
+    {
+      title: '4. térkép — Híd a patakon',
+      prompt: 'Csak egy szűk átjáró van a pocsolyák között!',
+      speech: 'Keresd meg a keskeny ösvényt a pocsolyák között!',
+      size: 4,
+      start: { r: 2, c: 0 },
+      goal: { r: 2, c: 3 },
+      obstacles: [
+        { r: 0, c: 2, type: 'P' },
+        { r: 1, c: 2, type: 'P' },
+        { r: 2, c: 2, type: 'B' },
+        { r: 3, c: 1, type: 'P' },
+      ],
+      initialSteps: [],
+    },
+    {
+      title: '5. térkép — Nagyobb erdő (5×5)',
       prompt: 'Most egy 5×5-ös erdőben kell megtalálni a kincset!',
       speech: 'Figyelj jól! Ez egy nagyobb erdő, számold ki a lépéseket!',
       size: 5,
@@ -189,6 +219,59 @@
         { r: 2, c: 3, type: 'P' },
         { r: 1, c: 3, type: 'B' },
         { r: 1, c: 1, type: 'P' },
+      ],
+      initialSteps: [],
+    },
+    {
+      title: '6. térkép — Csigavonal',
+      prompt: 'Kerüld meg a nagy bokorsort a kincsért!',
+      speech: 'Kerüld meg a bokorsort, úgy jutsz el a tallérhoz!',
+      size: 5,
+      start: { r: 4, c: 4 },
+      goal: { r: 2, c: 2 },
+      obstacles: [
+        { r: 3, c: 2, type: 'B' },
+        { r: 3, c: 3, type: 'B' },
+        { r: 2, c: 3, type: 'P' },
+        { r: 1, c: 1, type: 'B' },
+        { r: 1, c: 2, type: 'P' },
+        { r: 1, c: 3, type: 'B' },
+      ],
+      initialSteps: [],
+    },
+    {
+      title: '7. térkép — Erdei labirintus (5×5)',
+      prompt: 'Válaszd a tiszta ösvényt a sűrű erdőben!',
+      speech: 'Válaszd a tiszta ösvényt a sűrű erdőben!',
+      size: 5,
+      start: { r: 0, c: 4 },
+      goal: { r: 4, c: 0 },
+      obstacles: [
+        { r: 0, c: 2, type: 'B' },
+        { r: 1, c: 2, type: 'P' },
+        { r: 2, c: 2, type: 'B' },
+        { r: 3, c: 1, type: 'P' },
+        { r: 2, c: 4, type: 'P' },
+        { r: 4, c: 2, type: 'B' },
+      ],
+      initialSteps: [],
+    },
+    {
+      title: '8. térkép — Óriás Meseerdő (6×6)',
+      prompt: 'Igazi mesterpróba a 6×6-os meseerdőben!',
+      speech: 'Igazi mesterpróba! Vezesd át a kiskakast az óriás meseerdőn!',
+      size: 6,
+      start: { r: 5, c: 0 },
+      goal: { r: 0, c: 5 },
+      obstacles: [
+        { r: 4, c: 0, type: 'P' },
+        { r: 4, c: 1, type: 'B' },
+        { r: 4, c: 2, type: 'P' },
+        { r: 2, c: 1, type: 'B' },
+        { r: 2, c: 2, type: 'B' },
+        { r: 2, c: 4, type: 'P' },
+        { r: 1, c: 4, type: 'B' },
+        { r: 0, c: 3, type: 'P' },
       ],
       initialSteps: [],
     },
@@ -206,7 +289,6 @@
         { r: 2, c: 1, type: 'P' },
         { r: 1, c: 1, type: 'B' },
       ],
-      // Jó út: right, right, up, up -> Manó hibája: right, down, up, up
       initialSteps: ['right', 'down', 'up', 'up'],
     },
     {
@@ -221,11 +303,24 @@
         { r: 1, c: 2, type: 'B' },
         { r: 0, c: 3, type: 'P' },
       ],
-      // Jó út: up, left, left, up, up -> Manó: up, left, up, left, up
       initialSteps: ['up', 'left', 'up', 'left', 'up'],
     },
     {
-      title: '3. manó-hiba — Két hiba is van!',
+      title: '3. manó-hiba — Fordított irány',
+      prompt: 'A manó megfordította az egyik nyilat! Melyiket?',
+      speech: 'A manó megfordította az egyik nyilat! Találd meg, melyiket!',
+      size: 4,
+      start: { r: 0, c: 0 },
+      goal: { r: 3, c: 2 },
+      obstacles: [
+        { r: 1, c: 0, type: 'B' },
+        { r: 1, c: 1, type: 'P' },
+        { r: 2, c: 3, type: 'P' },
+      ],
+      initialSteps: ['right', 'right', 'down', 'left', 'down'],
+    },
+    {
+      title: '4. manó-hiba — Két hiba is van!',
       prompt: 'Most a manó két követ is elcserélt! Javítsd ki mindkettőt!',
       speech: 'Vigyázz, most két hibás kő is van az útban! Javítsd ki mindkettőt!',
       size: 5,
@@ -237,8 +332,69 @@
         { r: 2, c: 2, type: 'P' },
         { r: 1, c: 2, type: 'B' },
       ],
-      // Jó: right, right, right, up, up, up -> Manó: right, left, right, up, down, up
       initialSteps: ['right', 'left', 'right', 'up', 'down', 'up'],
+    },
+    {
+      title: '5. manó-hiba — Az erdei kanyar',
+      prompt: 'Túl hamar fordul a kiskakas! Javítsd ki a kanyart!',
+      speech: 'Túl hamar fordul a kiskakas! Keresd meg, hol kell kijavítani!',
+      size: 5,
+      start: { r: 4, c: 0 },
+      goal: { r: 0, c: 3 },
+      obstacles: [
+        { r: 3, c: 0, type: 'P' },
+        { r: 2, c: 1, type: 'B' },
+        { r: 2, c: 2, type: 'P' },
+        { r: 1, c: 4, type: 'B' },
+      ],
+      initialSteps: ['right', 'up', 'right', 'up', 'up', 'up', 'right'],
+    },
+    {
+      title: '6. manó-hiba — Bokorcsapda',
+      prompt: 'Két hiba is elrejtőzött a hosszú útban!',
+      speech: 'Két hiba is elrejtőzött ebben az útban! Vizsgáld meg lépésről lépésre!',
+      size: 5,
+      start: { r: 0, c: 4 },
+      goal: { r: 4, c: 1 },
+      obstacles: [
+        { r: 1, c: 4, type: 'B' },
+        { r: 1, c: 2, type: 'P' },
+        { r: 2, c: 2, type: 'B' },
+        { r: 3, c: 2, type: 'P' },
+        { r: 3, c: 0, type: 'B' },
+      ],
+      initialSteps: ['left', 'left', 'down', 'down', 'down', 'left', 'up'],
+    },
+    {
+      title: '7. manó-hiba — A kincs előtt',
+      prompt: 'Már majdnem odaért, de az utolsó előtti lépések rosszak!',
+      speech: 'Már majdnem odaért, de az utolsó lépéseknél trükközött a manó!',
+      size: 5,
+      start: { r: 4, c: 4 },
+      goal: { r: 0, c: 0 },
+      obstacles: [
+        { r: 3, c: 4, type: 'P' },
+        { r: 2, c: 2, type: 'B' },
+        { r: 1, c: 2, type: 'P' },
+        { r: 1, c: 0, type: 'B' },
+      ],
+      initialSteps: ['left', 'up', 'up', 'up', 'left', 'left', 'down', 'left'],
+    },
+    {
+      title: '8. manó-hiba — Óriás erdő (6×6)',
+      prompt: 'Nagy 6×6-os pálya két manó-hibával! Megtalálod őket?',
+      speech: 'Nagy pálya két manó-hibával! Megtalálod mindkettőt?',
+      size: 6,
+      start: { r: 5, c: 1 },
+      goal: { r: 0, c: 4 },
+      obstacles: [
+        { r: 4, c: 1, type: 'B' },
+        { r: 3, c: 3, type: 'P' },
+        { r: 2, c: 3, type: 'B' },
+        { r: 1, c: 1, type: 'P' },
+        { r: 1, c: 5, type: 'B' },
+      ],
+      initialSteps: ['right', 'right', 'up', 'up', 'left', 'up', 'up', 'up', 'down', 'right'],
     },
   ];
 
@@ -273,7 +429,22 @@
       initialSteps: [],
     },
     {
-      title: '3. gomba-ugrás — Dupla akadály',
+      title: '3. gomba-ugrás — Balra ugrás',
+      prompt: 'Most balra kell fordulnod, mielőtt átugrod a gombát!',
+      speech: 'Most balra kell fordulnod, mielőtt átugrod a gombát!',
+      size: 4,
+      start: { r: 3, c: 3 },
+      goal: { r: 1, c: 0 },
+      obstacles: [
+        { r: 1, c: 1, type: 'M' },
+        { r: 2, c: 2, type: 'P' },
+        { r: 0, c: 1, type: 'B' },
+        { r: 2, c: 1, type: 'P' },
+      ],
+      initialSteps: [],
+    },
+    {
+      title: '4. gomba-ugrás — Dupla akadály (5×5)',
       prompt: 'Egy gomba és egy pocsolya is az útban van. Tervezd meg okosan!',
       speech: 'Egy gomba és egy pocsolya is az útban van. Tervezd meg okosan az utat!',
       size: 5,
@@ -288,10 +459,78 @@
       ],
       initialSteps: [],
     },
+    {
+      title: '5. gomba-ugrás — Két gomba egymás után',
+      prompt: 'Két varázsgombát is át kell ugranod az aranyért!',
+      speech: 'Két varázsgombát is át kell ugranod az aranytallérért!',
+      size: 5,
+      start: { r: 2, c: 0 },
+      goal: { r: 2, c: 4 },
+      obstacles: [
+        { r: 2, c: 1, type: 'M' },
+        { r: 2, c: 3, type: 'M' },
+        { r: 1, c: 1, type: 'P' },
+        { r: 3, c: 1, type: 'B' },
+        { r: 1, c: 3, type: 'B' },
+        { r: 3, c: 3, type: 'P' },
+      ],
+      initialSteps: [],
+    },
+    {
+      title: '6. gomba-ugrás — Lefelé ugrás',
+      prompt: 'Indulj fentről, és ugorj át a gombán lefelé!',
+      speech: 'Indulj fentről, és ugorj át a gombán lefelé!',
+      size: 5,
+      start: { r: 0, c: 2 },
+      goal: { r: 4, c: 4 },
+      obstacles: [
+        { r: 1, c: 2, type: 'M' },
+        { r: 3, c: 3, type: 'M' },
+        { r: 1, c: 1, type: 'P' },
+        { r: 1, c: 3, type: 'B' },
+        { r: 2, c: 3, type: 'P' },
+      ],
+      initialSteps: [],
+    },
+    {
+      title: '7. gomba-ugrás — Gombakert (5×5)',
+      prompt: 'Válaszd ki, melyik gombán érdemes átugrani!',
+      speech: 'Válaszd ki, melyik gombán érdemes átugrani!',
+      size: 5,
+      start: { r: 4, c: 4 },
+      goal: { r: 0, c: 0 },
+      obstacles: [
+        { r: 3, c: 4, type: 'M' },
+        { r: 1, c: 1, type: 'M' },
+        { r: 4, c: 2, type: 'P' },
+        { r: 3, c: 3, type: 'B' },
+        { r: 2, c: 2, type: 'P' },
+        { r: 0, c: 2, type: 'B' },
+      ],
+      initialSteps: [],
+    },
+    {
+      title: '8. gomba-ugrás — Óriás Gombaerdő (6×6)',
+      prompt: '6×6-os gombaerdő! Tervezd meg a nagy ugrásokat!',
+      speech: 'Óriás gombaerdő! Tervezd meg a nagy ugrásokat!',
+      size: 6,
+      start: { r: 5, c: 0 },
+      goal: { r: 0, c: 5 },
+      obstacles: [
+        { r: 5, c: 2, type: 'M' },
+        { r: 3, c: 4, type: 'M' },
+        { r: 1, c: 5, type: 'M' },
+        { r: 4, c: 1, type: 'P' },
+        { r: 4, c: 2, type: 'B' },
+        { r: 3, c: 2, type: 'P' },
+        { r: 2, c: 4, type: 'B' },
+      ],
+      initialSteps: [],
+    },
   ];
 
   /* ========================================================================
-     3. Végtelen Pályagenerátor (BFS-sel garantáltan megoldható)
+     3. Végtelen Pályagenerátor (BFS-sel garantáltan megoldható, 4×4–6×6)
      ======================================================================== */
   function findShortestPath(size, start, goal, obstacles, allowMushroomJump) {
     const obsMap = new Map();
@@ -320,11 +559,9 @@
             queue.push({ r: nr, c: nc, dir, path: [...curr.path, dir] });
           }
         } else if (allowMushroomJump && cellType === 'M') {
-          // Ha közvetlenül előttünk gomba van, és a mögötte lévő mező szabad
           const jr = nr + dr;
           const jc = nc + dc;
           if (jr >= 0 && jr < size && jc >= 0 && jc < size && !obsMap.get(`${jr},${jc}`)) {
-            // Először fordulni kell (ha nem arra néztünk, egy lépés nélkül is a dir irányba ugorhat? A játékban a 'jump' az utolsó irányba ugrik!)
             if (curr.dir === dir) {
               const key = `${jr},${jc},${dir}`;
               if (!visited.has(key)) {
@@ -340,37 +577,57 @@
   }
 
   function generateInfiniteMaze(mode, roundNum) {
-    const size = roundNum <= 2 ? 4 : 5;
+    const size = roundNum <= 2 ? 4 : roundNum <= 6 ? 5 : 6;
     const allowMushroom = mode === 'mushroom';
 
-    for (let attempt = 0; attempt < 80; attempt++) {
-      const start = { r: size - 1, c: Math.floor(Math.random() * size) };
-      const goal = { r: 0, c: Math.floor(Math.random() * size) };
-      if (Math.abs(start.r - goal.r) + Math.abs(start.c - goal.c) < 3) continue;
+    for (let attempt = 0; attempt < 120; attempt++) {
+      // Változatos indulási és célpontok (nem csak alulról felfelé)
+      const start = {
+        r: Math.floor(Math.random() * size),
+        c: Math.floor(Math.random() * size),
+      };
+      const goal = {
+        r: Math.floor(Math.random() * size),
+        c: Math.floor(Math.random() * size),
+      };
+      const dist = Math.abs(start.r - goal.r) + Math.abs(start.c - goal.c);
+      if (dist < size - 1) continue;
 
       const obstacles = [];
-      const obsCount = size === 4 ? 3 : 5;
+      const obsCount = size === 4 ? 4 : size === 5 ? 6 : 9;
       for (let i = 0; i < obsCount; i++) {
         const r = Math.floor(Math.random() * size);
         const c = Math.floor(Math.random() * size);
         if ((r === start.r && c === start.c) || (r === goal.r && c === goal.c)) continue;
         if (obstacles.some((o) => o.r === r && o.c === c)) continue;
-        const type = allowMushroom && i === 0 ? 'M' : Math.random() < 0.5 ? 'P' : 'B';
+        const type =
+          allowMushroom && i < 2 ? 'M' : Math.random() < 0.5 ? 'P' : 'B';
         obstacles.push({ r, c, type });
       }
 
       const path = findShortestPath(size, start, goal, obstacles, allowMushroom);
-      if (!path || path.length < 3 || path.length > 9) continue;
+      if (!path || path.length < 3 || path.length > 14) continue;
       if (allowMushroom && !path.includes('jump')) continue;
 
       if (mode === 'debug') {
         const buggy = path.slice();
-        const bugIdx = Math.floor(Math.random() * buggy.length);
-        const dirs = ['up', 'down', 'left', 'right'].filter((d) => d !== buggy[bugIdx]);
-        buggy[bugIdx] = pickRandom(dirs);
+        const bugCount = roundNum >= 4 && buggy.length >= 5 ? 2 : 1;
+        const usedIdx = new Set();
+        for (let b = 0; b < bugCount; b++) {
+          let bugIdx = Math.floor(Math.random() * buggy.length);
+          while (usedIdx.has(bugIdx)) {
+            bugIdx = Math.floor(Math.random() * buggy.length);
+          }
+          usedIdx.add(bugIdx);
+          const dirs = ['up', 'down', 'left', 'right'].filter((d) => d !== buggy[bugIdx]);
+          buggy[bugIdx] = pickRandom(dirs);
+        }
         return {
-          title: `∞ Végtelen Manó-hiba — ${roundNum}. kör`,
-          prompt: 'A manó elrontott egy követ ebben az útban! Keresd meg és javítsd ki!',
+          title: `∞ Végtelen Manó-hiba — ${roundNum}. kör (${size}×${size})`,
+          prompt:
+            bugCount === 2
+              ? 'A manó két követ is elrontott! Keresd meg és javítsd ki őket!'
+              : 'A manó elrontott egy követ ebben az útban! Keresd meg és javítsd ki!',
           speech: 'Végtelen kör! Keresd meg a manó hibáját és javítsd ki!',
           size,
           start,
@@ -381,11 +638,11 @@
       }
 
       return {
-        title: `∞ Végtelen Útvesztő — ${roundNum}. kör`,
+        title: `∞ Végtelen Útvesztő — ${roundNum}. kör (${size}×${size})`,
         prompt: allowMushroom
           ? 'Használd a 🍄 Ugrás követ a gombánál, és juss el a kincshez!'
           : 'Vezesd el a kiskakast az aranytallérhoz!',
-        speech: 'Új pálya! Tervezd meg előre a kiskakas útját!',
+        speech: 'Új térkép! Tervezd meg előre a kiskakas útját!',
         size,
         start,
         goal,
@@ -595,10 +852,20 @@
     }
 
     const runLabel = state.mode === 'debug' ? '▶️ Kipróbálom!' : '▶️ Indulás!';
+    const rerollBtn = state.infiniteMode
+      ? '<button type="button" class="btn btn-secondary" id="btn-new-map">🎲 Új térkép</button>'
+      : '';
     els.actionButtons.innerHTML = `
+      ${rerollBtn}
       <button type="button" class="btn btn-secondary" id="btn-reset-pos">↩️ Vissza az elejére</button>
       <button type="button" class="btn btn-primary" id="btn-run-path">${runLabel}</button>
     `;
+    if (state.infiniteMode) {
+      document.getElementById('btn-new-map').addEventListener('click', () => {
+        if (state.isRunning) return;
+        loadLevel();
+      });
+    }
     document.getElementById('btn-reset-pos').addEventListener('click', resetPlayerToStart);
     document.getElementById('btn-run-path').addEventListener('click', runProgram);
   }
@@ -743,7 +1010,7 @@
         state.steps[state.selectedSlotIdx] = cmd;
         state.selectedSlotIdx = null;
         state.bugStepIdx = null;
-      } else if (state.steps.length < 14) {
+      } else if (state.steps.length < 20) {
         state.steps.push(cmd);
         state.bugStepIdx = null;
       }
