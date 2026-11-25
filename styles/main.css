@@ -541,6 +541,125 @@ a {
 }
 
 /* ==========================================================================
+   Index Progress Badges & Teacher Summary Modal
+   ========================================================================== */
+.card-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--ink-secondary);
+}
+
+.card-star-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+  background: var(--amber-gold-soft);
+  border: 1.5px solid #E9C685;
+  color: var(--ink-primary);
+}
+
+.badge-unlocked {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+  background: var(--sage-green-soft);
+  border: 1.5px solid #A8D7BE;
+  color: var(--sage-green-dark);
+}
+
+.teacher-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 40px;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border-warm);
+  background: var(--bg-cream);
+  color: var(--ink-primary);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.teacher-btn:hover {
+  background: var(--bg-sand);
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 30, 22, 0.52);
+  display: none;
+  place-items: center;
+  padding: 1rem;
+  z-index: 100;
+}
+
+.modal-backdrop.is-open {
+  display: grid;
+}
+
+.teacher-modal {
+  width: 100%;
+  max-width: 620px;
+  max-height: 88dvh;
+  overflow-y: auto;
+  background: var(--bg-cream);
+  border: 2px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: 0 20px 44px rgba(43, 30, 22, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.teacher-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.teacher-modal-header h2 {
+  font-family: var(--font-display);
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.teacher-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.75rem 0.9rem;
+  background: var(--bg-sand);
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-warm);
+}
+
+.teacher-row-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.teacher-row-sub {
+  font-size: 0.82rem;
+  color: var(--ink-secondary);
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 .site-footer {

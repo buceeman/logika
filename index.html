@@ -8,7 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles/main.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles/main.css?v=4">
 </head>
 <body>
   <header class="site-header">
@@ -26,8 +28,8 @@
         </span>
       </a>
       <div class="header-meta">
-        <span class="age-tag">🎒 1. osztály (6–7 év)</span>
-        <span class="age-tag">📱 Mobil · Tablet · Gép</span>
+        <span class="age-tag" id="total-stars-pill">⭐ <strong id="total-stars-value">0</strong> csillag</span>
+        <button type="button" class="teacher-btn" id="btn-open-teacher">👩‍🏫 Tanítói nézet</button>
       </div>
     </div>
   </header>
@@ -227,8 +229,121 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <span><strong>Logika Műhely</strong> — Első osztályos logikafejlesztő gyűjtemény</span>
-      <span>Működik mobilon, tableten, interaktív táblán és számítógépen</span>
+      <span>Működik mobilon, tableten, interaktív táblán és számítógépen (offline is!)</span>
     </div>
   </footer>
+
+  <!-- Tanítói / Szülői Összefoglaló Modal -->
+  <div class="modal-backdrop" id="teacher-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="teacher-modal-title">
+    <div class="teacher-modal">
+      <div class="teacher-modal-header">
+        <h2 id="teacher-modal-title">👩‍🏫 Szülői és Tanítói Összefoglaló</h2>
+        <button type="button" class="teacher-btn" id="btn-close-teacher">✕ Bezárás</button>
+      </div>
+      <p style="margin:0; color:var(--ink-secondary); font-size:0.92rem;">
+        Itt látható a gyermek előrehaladása az egyes logikai területeken. <strong>5 csillag</strong> után minden játékban feloldódik a mesterjelvény!
+      </p>
+      <div id="teacher-rows" style="display:flex; flex-direction:column; gap:0.55rem;"></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; border-top:1.5px dashed var(--border-warm); padding-top:0.85rem;">
+        <span style="font-weight:800; color:var(--ink-primary);" id="teacher-total-summary"></span>
+        <button type="button" class="teacher-btn" id="btn-reset-progress" style="color:var(--forge-ember-dark);">🗑️ Haladás nullázása</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="shared/logika-core.js?v=4"></script>
+  <script>
+    (() => {
+      const cardIds = {
+        kovacs: 'card-kovacs-muhelye',
+        utveszto: 'card-buvos-utveszto',
+        merleg: 'card-merleg-vasar',
+        kameleon: 'card-szabaly-kameleon',
+        tukor: 'card-tukor-var',
+        nyomozo: 'card-erdei-nyomozo',
+      };
+
+      function refreshHubProgress() {
+        const core = window.LogikaCore;
+        if (!core) return;
+
+        document.getElementById('total-stars-value').textContent = String(core.getTotalStars());
+
+        core.APP_META.forEach((app) => {
+          const card = document.getElementById(cardIds[app.key]);
+          if (!card) return;
+          let row = card.querySelector('.card-progress-row');
+          if (!row) {
+            row = document.createElement('div');
+            row.className = 'card-progress-row';
+            const btn = card.querySelector('.btn');
+            card.insertBefore(row, btn);
+          }
+          const stars = core.getAppStars(app.starKey);
+          const unlocked = stars >= 5;
+          row.innerHTML = `
+            <span class="card-star-pill">⭐ ${stars} csillag</span>
+            <span class="${unlocked ? 'badge-unlocked' : ''}">
+              ${unlocked ? `🏅 ${app.badge}` : `🎯 ${Math.max(0, 5 - stars)} a jelvényig`}
+            </span>
+          `;
+        });
+      }
+
+      const backdrop = document.getElementById('teacher-modal-backdrop');
+      const rowsEl = document.getElementById('teacher-rows');
+
+      function renderTeacherModal() {
+        const core = window.LogikaCore;
+        const stats = core.getStats();
+        rowsEl.innerHTML = core.APP_META.map((app) => {
+          const stars = core.getAppStars(app.starKey);
+          const solved = (stats[app.key] && stats[app.key].solved) || stars;
+          const badgeTxt = stars >= 5 ? `🏅 ${app.badge}` : 'Folyamatban';
+          return `
+            <div class="teacher-row">
+              <div>
+                <div class="teacher-row-title">${app.emoji} ${app.name}</div>
+                <div class="teacher-row-sub">${app.skill} · ${badgeTxt}</div>
+              </div>
+              <div style="text-align:right; font-weight:800;">
+                <div>⭐ ${stars}</div>
+                <div style="font-size:0.78rem; color:var(--ink-muted);">${solved} megoldva</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+        document.getElementById('teacher-total-summary').textContent =
+          `Összesen: ⭐ ${core.getTotalStars()} csillag`;
+      }
+
+      document.getElementById('btn-open-teacher').addEventListener('click', () => {
+        renderTeacherModal();
+        backdrop.classList.add('is-open');
+      });
+
+      document.getElementById('btn-close-teacher').addEventListener('click', () => {
+        backdrop.classList.remove('is-open');
+      });
+
+      backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) backdrop.classList.remove('is-open');
+      });
+
+      document.getElementById('btn-reset-progress').addEventListener('click', () => {
+        if (confirm('Biztosan törlöd az összes összegyűjtött csillagot és jelvényt?')) {
+          window.LogikaCore.resetAllProgress();
+          refreshHubProgress();
+          renderTeacherModal();
+        }
+      });
+
+      refreshHubProgress();
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      }
+    })();
+  </script>
 </body>
 </html>
