@@ -747,7 +747,7 @@
     });
   });
 
-  state.difficulty = 'medium';
+  state.difficulty = 'easy';
   els.starCount.textContent = String(state.stars);
   loadLevel();
 })();

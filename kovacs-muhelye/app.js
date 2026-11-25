@@ -1288,7 +1288,7 @@
   });
 
   // Kezdeti csillagszám és első pálya betöltése
-  state.difficulty = 'medium';
+  state.difficulty = 'easy';
   els.starCount.textContent = String(state.stars);
   loadLevel();
 })();
