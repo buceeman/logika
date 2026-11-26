@@ -1,4 +1,4 @@
-const CACHE_NAME = 'logika-muhely-v10';
+const CACHE_NAME = 'logika-muhely-v11';
 const ASSETS = [
   './',
   './index.html',
@@ -44,6 +44,9 @@ const ASSETS = [
   './varazsgep/index.html',
   './varazsgep/styles.css?v=1',
   './varazsgep/app.js?v=1',
+  './ido-mano/index.html',
+  './ido-mano/styles.css?v=1',
+  './ido-mano/app.js?v=1',
 ];
 
 self.addEventListener('install', (event) => {

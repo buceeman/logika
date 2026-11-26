@@ -98,7 +98,7 @@
     <section id="jatekok-lista" aria-labelledby="apps-section-title">
       <div class="section-heading">
         <h2 id="apps-section-title">Fejlesztő játékaink</h2>
-        <p>10 egyedi világ a logikus gondolkodás minden területére</p>
+        <p>11 egyedi világ a logikus gondolkodás minden területére</p>
       </div>
 
       <div class="apps-grid">
@@ -331,6 +331,29 @@
             Játék indítása →
           </a>
         </article>
+
+        <!-- 11. Idő-Manó (LIVE) -->
+        <article class="app-card is-live" id="card-ido-mano">
+          <div class="app-card-top">
+            <div class="app-emblem emblem-scale" aria-hidden="true">⏳</div>
+            <span class="status-label status-live">Elérhető</span>
+          </div>
+          <h3>Idő-Manó</h3>
+          <p class="app-card-desc">
+            Kalandozz a hét napjai között, olvasd le a varázslatos mutatók óráját, és rakd időrendbe a mesék képeit!
+          </p>
+          <div class="app-skills">
+            <span class="skill-chip">Hét napjai</span>
+            <span class="skill-chip">Óra-leolvasás</span>
+            <span class="skill-chip">Történet-sorrend</span>
+          </div>
+          <div class="app-method">
+            <strong>Módszer:</strong> Időbeli tájékozódás &amp; szekvenciális logika
+          </div>
+          <a href="ido-mano/index.html" class="btn btn-primary" id="btn-launch-mano">
+            Játék indítása →
+          </a>
+        </article>
       </div>
     </section>
   </main>
@@ -368,10 +391,10 @@
         <button type="button" class="teacher-btn" id="btn-close-album">✕ Bezárás</button>
       </div>
       <p style="margin:0; color:var(--ink-secondary); font-size:0.92rem;" id="album-subtitle">
-        Gyűjts 5 csillagot minden játékban, hogy feloldd mind a 10 mesterjelvényt!
+        Gyűjts 5 csillagot minden játékban, hogy feloldd mind a 11 mesterjelvényt!
       </p>
       <div id="album-grandmaster" class="grandmaster-banner" style="display:none;">
-        🏆 Gratulálunk! Mind a 10 mesterjelvényt megszerezted — Te vagy a Logika Nagymestere!
+        🏆 Gratulálunk! Mind a 11 mesterjelvényt megszerezted — Te vagy a Logika Nagymestere!
       </div>
       <div class="album-grid" id="album-grid"></div>
     </div>
@@ -391,6 +414,7 @@
         minta: 'card-minta-vonat',
         vakond: 'card-kertesz-vakond',
         gep: 'card-varazsgep',
+        mano: 'card-ido-mano',
       };
 
       function refreshHeroActions() {

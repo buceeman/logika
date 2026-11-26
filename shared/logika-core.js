@@ -1,6 +1,6 @@
 /**
  * Logika Műhely — Közös hang-, konfetti-, napi kaland- és haladáskezelő modul
- * Automatikusan fejleszti mind a 10 alkalmazást (magyar hangválasztó,
+ * Automatikusan fejleszti mind a 11 alkalmazást (magyar hangválasztó,
  * 5-csillagos konfetti-eső, globális némítás, nehézségi szint mentése,
  * napi 3 kaland és tanítói statisztika).
  */
@@ -19,6 +19,7 @@
     { key: 'minta', slug: 'minta-vonat', path: 'minta-vonat/index.html', starKey: 'minta_stars', name: 'Minta-Vonat', emoji: '🚂', badge: 'Minta-mester', skill: 'Sorozatfelismerés & kakukktojás' },
     { key: 'vakond', slug: 'kertesz-vakond', path: 'kertesz-vakond/index.html', starKey: 'vakond_stars', name: 'Kertész Vakond', emoji: '🌻', badge: 'Kert-mester', skill: 'Mini-Sudoku & rács-logika' },
     { key: 'gep', slug: 'varazsgep', path: 'varazsgep/index.html', starKey: 'gep_stars', name: 'Varázsgép', emoji: '⚙️', badge: 'Gépész-mester', skill: 'Átalakítások & analógiák' },
+    { key: 'mano', slug: 'ido-mano', path: 'ido-mano/index.html', starKey: 'mano_stars', name: 'Idő-Manó', emoji: '⏳', badge: 'Idő-mester', skill: 'Időrend, napok & óra-leolvasás' },
   ];
 
   const STATS_KEY = 'logika_stats';
