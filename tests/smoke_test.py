@@ -54,7 +54,7 @@ def run_tests():
 
             # 1. Test Hub (index.html)
             page.goto(f"{base_url}/index.html", wait_until="networkidle")
-            assert page.locator(".app-card").count() == 11, "Expected 11 app cards on hub"
+            assert page.locator(".app-card").count() == 12, "Expected 12 app cards on hub"
             assert page.locator("#daily-quest-items .daily-item").count() == 3, "Expected 3 daily quest items"
 
             # Global mute toggle on hub
@@ -65,13 +65,13 @@ def run_tests():
             # Badge Album modal
             page.click("#btn-open-album")
             assert page.locator("#album-modal-backdrop.is-open").count() == 1
-            assert page.locator("#album-grid .album-tile").count() == 11
+            assert page.locator("#album-grid .album-tile").count() == 12
             page.click("#btn-close-album")
 
             # Teacher modal
             page.click("#btn-open-teacher")
             assert page.locator("#teacher-modal-backdrop.is-open").count() == 1
-            assert page.locator("#teacher-rows .teacher-row").count() == 11
+            assert page.locator("#teacher-rows .teacher-row").count() == 12
             page.click("#btn-close-teacher")
 
             # Simulate completing today's 3 daily quests via star increments
@@ -84,9 +84,9 @@ def run_tests():
             page.reload(wait_until="networkidle")
             assert "3 / 3" in page.locator("#daily-progress-pill").inner_text(), "Daily quest did not complete 3/3"
             assert page.locator("#daily-streak-value").inner_text().strip() == "1", "Streak did not increment to 1"
-            print("[PASS] Hub: 11 cards, Daily 3-Quest & streak, Badge Album, Teacher modal, Global Mute")
+            print("[PASS] Hub: 12 cards, Daily 3-Quest & streak, Badge Album, Teacher modal, Global Mute")
 
-            # 2. Test all 11 sub-apps
+            # 2. Test all 12 sub-apps
             apps = [
                 ("kovacs", "kovacs-muhelye"),
                 ("utveszto", "buvos-utveszto"),
@@ -99,6 +99,7 @@ def run_tests():
                 ("vakond", "kertesz-vakond"),
                 ("gep", "varazsgep"),
                 ("mano", "ido-mano"),
+                ("torony", "torony-epito"),
             ]
 
             for key, slug in apps:
@@ -120,19 +121,20 @@ def run_tests():
                 is_active = page.evaluate("document.querySelector('#difficulty-bar .diff-btn[data-diff=\"medium\"]').classList.contains('is-active')")
                 assert is_active, f"{slug} did not restore medium difficulty after reload"
 
-            # Verify Idő-Manó 3 modes (calendar, clock, story)
-            page.click("#tab-mode-clock")
-            assert page.locator(".clock-svg").count() == 1, "Idő-Manó clock SVG did not render"
-            page.click("#tab-mode-story")
-            assert page.locator(".story-slot").count() == 4, "Idő-Manó medium story should have 4 slots"
+            # Verify Torony-Építő 3 modes (hanoi, combo, match)
+            assert page.locator(".hanoi-peg").count() == 3, "Torony-Építő Hanoi should have 3 pegs"
+            page.click("#tab-mode-combo")
+            assert page.locator(".color-block-btn").count() == 3, "Torony-Építő medium combo should have 3 color blocks"
+            page.click("#tab-mode-match")
+            assert page.locator(".tower-choice-btn").count() >= 3, "Torony-Építő match mode should have choices"
 
-            # Verify "Folytasd" button on hub points to last visited app (Idő-Manó)
+            # Verify "Folytasd" button on hub points to last visited app (Torony-Építő)
             page.goto(f"{base_url}/index.html", wait_until="networkidle")
             hero_txt = page.locator("#hero-play-kovacs").inner_text()
-            assert "Idő-Manó" in hero_txt, f"Expected hero CTA to continue Idő-Manó, got: {hero_txt}"
+            assert "Torony-Építő" in hero_txt, f"Expected hero CTA to continue Torony-Építő, got: {hero_txt}"
 
             assert not errors, f"Console/Page errors detected:\n" + "\n".join(errors)
-            print("[PASS] All 11 sub-apps loaded with 0 console/page errors, synced mute & persisted difficulty")
+            print("[PASS] All 12 sub-apps loaded with 0 console/page errors, synced mute & persisted difficulty")
             browser.close()
     finally:
         httpd.shutdown()

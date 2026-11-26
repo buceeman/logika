@@ -1,4 +1,4 @@
-const CACHE_NAME = 'logika-muhely-v11';
+const CACHE_NAME = 'logika-muhely-v12';
 const ASSETS = [
   './',
   './index.html',
@@ -47,6 +47,9 @@ const ASSETS = [
   './ido-mano/index.html',
   './ido-mano/styles.css?v=1',
   './ido-mano/app.js?v=1',
+  './torony-epito/index.html',
+  './torony-epito/styles.css?v=1',
+  './torony-epito/app.js?v=1',
 ];
 
 self.addEventListener('install', (event) => {

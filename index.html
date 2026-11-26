@@ -98,7 +98,7 @@
     <section id="jatekok-lista" aria-labelledby="apps-section-title">
       <div class="section-heading">
         <h2 id="apps-section-title">Fejlesztő játékaink</h2>
-        <p>11 egyedi világ a logikus gondolkodás minden területére</p>
+        <p>12 egyedi világ a logikus gondolkodás minden területére</p>
       </div>
 
       <div class="apps-grid">
@@ -354,6 +354,29 @@
             Játék indítása →
           </a>
         </article>
+
+        <!-- 12. Torony-Építő (LIVE) -->
+        <article class="app-card is-live" id="card-torony-epito">
+          <div class="app-card-top">
+            <div class="app-emblem emblem-path" aria-hidden="true">🗼</div>
+            <span class="status-label status-live">Elérhető</span>
+          </div>
+          <h3>Torony-Építő</h3>
+          <p class="app-card-desc">
+            Rakd át a bűvös gyűrűket a szabályok szerint, és építsd fel az összes egyedi színes tornyot ismétlődés nélkül!
+          </p>
+          <div class="app-skills">
+            <span class="skill-chip">Kombinatorika</span>
+            <span class="skill-chip">Hanoi-torony</span>
+            <span class="skill-chip">Rendszerezés</span>
+          </div>
+          <div class="app-method">
+            <strong>Módszer:</strong> Kombinatorikus gondolkodás &amp; tervezés
+          </div>
+          <a href="torony-epito/index.html" class="btn btn-primary" id="btn-launch-torony">
+            Játék indítása →
+          </a>
+        </article>
       </div>
     </section>
   </main>
@@ -391,10 +414,10 @@
         <button type="button" class="teacher-btn" id="btn-close-album">✕ Bezárás</button>
       </div>
       <p style="margin:0; color:var(--ink-secondary); font-size:0.92rem;" id="album-subtitle">
-        Gyűjts 5 csillagot minden játékban, hogy feloldd mind a 11 mesterjelvényt!
+        Gyűjts 5 csillagot minden játékban, hogy feloldd mind a 12 mesterjelvényt!
       </p>
       <div id="album-grandmaster" class="grandmaster-banner" style="display:none;">
-        🏆 Gratulálunk! Mind a 11 mesterjelvényt megszerezted — Te vagy a Logika Nagymestere!
+        🏆 Gratulálunk! Mind a 12 mesterjelvényt megszerezted — Te vagy a Logika Nagymestere!
       </div>
       <div class="album-grid" id="album-grid"></div>
     </div>
@@ -415,6 +438,7 @@
         vakond: 'card-kertesz-vakond',
         gep: 'card-varazsgep',
         mano: 'card-ido-mano',
+        torony: 'card-torony-epito',
       };
 
       function refreshHeroActions() {
