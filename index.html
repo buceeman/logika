@@ -81,7 +81,7 @@
     <section id="jatekok-lista" aria-labelledby="apps-section-title">
       <div class="section-heading">
         <h2 id="apps-section-title">Fejlesztő játékaink</h2>
-        <p>7 egyedi világ a logikus gondolkodás minden területére</p>
+        <p>8 egyedi világ a logikus gondolkodás minden területére</p>
       </div>
 
       <div class="apps-grid">
@@ -245,6 +245,29 @@
             Játék indítása →
           </a>
         </article>
+
+        <!-- 8. Minta-Vonat (LIVE) -->
+        <article class="app-card is-live" id="card-minta-vonat">
+          <div class="app-card-top">
+            <div class="app-emblem emblem-scale" aria-hidden="true">🚂</div>
+            <span class="status-label status-live">Elérhető</span>
+          </div>
+          <h3>Minta-Vonat</h3>
+          <p class="app-card-desc">
+            Pótold a hiányzó vagonokat, csípd el a kakukktojást, és találd ki, mekkora lesz a következő kockatorony!
+          </p>
+          <div class="app-skills">
+            <span class="skill-chip">Sorozatok</span>
+            <span class="skill-chip">Kakukktojás</span>
+            <span class="skill-chip">Mintafelismerés</span>
+          </div>
+          <div class="app-method">
+            <strong>Módszer:</strong> Induktív vizuális logika &amp; sorozatalkotás
+          </div>
+          <a href="minta-vonat/index.html" class="btn btn-primary" id="btn-launch-minta">
+            Játék indítása →
+          </a>
+        </article>
       </div>
     </section>
   </main>
@@ -285,6 +308,7 @@
         tukor: 'card-tukor-var',
         nyomozo: 'card-erdei-nyomozo',
         suni: 'card-postas-suni',
+        minta: 'card-minta-vonat',
       };
 
       function refreshHubProgress() {

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'logika-muhely-v6';
+const CACHE_NAME = 'logika-muhely-v7';
 const ASSETS = [
   './',
   './index.html',
@@ -27,6 +27,9 @@ const ASSETS = [
   './postas-suni/index.html',
   './postas-suni/styles.css?v=4',
   './postas-suni/app.js?v=4',
+  './minta-vonat/index.html',
+  './minta-vonat/styles.css?v=1',
+  './minta-vonat/app.js?v=1',
 ];
 
 self.addEventListener('install', (event) => {

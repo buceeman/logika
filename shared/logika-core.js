@@ -15,6 +15,7 @@
     { key: 'tukor', starKey: 'tukor_stars', name: 'Tükör-Vár', emoji: '🏰', badge: 'Térlátó lovag', skill: 'Szimmetria & térbeli forgatás' },
     { key: 'nyomozo', starKey: 'nyomozo_stars', name: 'Erdei Nyomozó', emoji: '🦊', badge: 'Főnyomozó', skill: 'Kizárás & ellentmondás' },
     { key: 'suni', starKey: 'suni_stars', name: 'Postás Süni', emoji: '🦔', badge: 'Gráf-bajnok', skill: 'Gráfelmélet & útvonal-tervezés' },
+    { key: 'minta', starKey: 'minta_stars', name: 'Minta-Vonat', emoji: '🚂', badge: 'Minta-mester', skill: 'Sorozatfelismerés & kakukktojás' },
   ];
 
   const STATS_KEY = 'logika_stats';

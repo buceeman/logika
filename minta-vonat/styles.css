@@ -1,0 +1,623 @@
+/* ==========================================================================
+   Minta-Vonat — Pattern Recognition, Odd One Out & Growing Sequences
+   ========================================================================== */
+
+.minta-body {
+  background-color: var(--bg-parchment);
+  background-image:
+    radial-gradient(circle at 14% 16%, rgba(217, 146, 38, 0.11) 0%, transparent 48%),
+    radial-gradient(circle at 86% 82%, rgba(45, 95, 154, 0.09) 0%, transparent 46%);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.workshop-header {
+  background: var(--bg-cream);
+  border-bottom: 2px solid var(--border-warm);
+  padding: 0.65rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.workshop-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--bg-sand);
+  border: 1.5px solid var(--border-warm);
+  color: var(--ink-primary);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  background: #E8DEC9;
+}
+
+.workshop-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 42px;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--amber-gold-soft);
+  border: 1.5px solid #E9C685;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink-primary);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border-warm);
+  background: var(--bg-cream);
+  color: var(--ink-primary);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: var(--bg-sand);
+}
+
+.icon-btn.is-muted {
+  opacity: 0.65;
+  background: var(--bg-sand);
+}
+
+.icon-btn.is-active {
+  background: var(--amber-gold-soft);
+  border-color: var(--amber-gold-dark);
+}
+
+/* Mode Nav */
+.mode-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.mode-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 52px;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-warm);
+  background: var(--bg-cream);
+  color: var(--ink-secondary);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.mode-tab:hover {
+  background: var(--bg-sand);
+}
+
+.mode-tab.is-active {
+  background: var(--amber-gold);
+  border-color: var(--amber-gold-dark);
+  color: #fff;
+  box-shadow: 0 4px 0 var(--amber-gold-dark);
+  transform: translateY(-2px);
+}
+
+/* Main Panel */
+.workshop-main {
+  flex: 1;
+  padding-bottom: 2.5rem;
+}
+
+.game-panel {
+  margin-top: 1rem;
+  background: var(--bg-cream);
+  border: 2px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: clamp(1rem, 2.5vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.prompt-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background: var(--bg-sand);
+  border: 1.5px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.1rem;
+}
+
+.prompt-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.guide-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--amber-gold-soft);
+  border: 2px solid #E9C685;
+  display: grid;
+  place-items: center;
+  font-size: 1.65rem;
+  flex-shrink: 0;
+}
+
+.level-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--amber-gold-dark);
+  background: var(--amber-gold-soft);
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: 0.2rem;
+}
+
+.prompt-instruction {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2vw, 1.28rem);
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+
+.difficulty-bar {
+  display: inline-flex;
+  gap: 0.3rem;
+  background: var(--bg-cream);
+  padding: 0.25rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border-warm);
+}
+
+.diff-btn {
+  border: none;
+  background: transparent;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-pill);
+  font-weight: 800;
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+  cursor: pointer;
+}
+
+.diff-btn.is-active {
+  background: var(--amber-gold);
+  color: #fff;
+}
+
+/* ==========================================================================
+   Train Track (Pattern Mode)
+   ========================================================================== */
+.train-track-wrap {
+  background: linear-gradient(180deg, #F6EFE2 0%, #EDE2CE 100%);
+  border: 2px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  padding: 1.15rem 0.9rem 0.95rem;
+  overflow-x: auto;
+}
+
+.train-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.35rem;
+  min-width: max-content;
+  margin: 0 auto;
+  padding-bottom: 0.6rem;
+  border-bottom: 4px dashed #9D8670;
+}
+
+.train-engine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 78px;
+  border-radius: 16px 14px 10px 10px;
+  background: var(--forge-ember);
+  border: 2.5px solid var(--forge-ember-dark);
+  color: #fff;
+  font-size: 2.1rem;
+  box-shadow: 0 4px 0 var(--forge-ember-dark);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.train-coupler {
+  width: 12px;
+  height: 6px;
+  background: #6E5847;
+  border-radius: 3px;
+  margin-bottom: 22px;
+  flex-shrink: 0;
+}
+
+.train-car {
+  width: 72px;
+  height: 76px;
+  border-radius: 14px;
+  background: var(--bg-cream);
+  border: 2.5px solid var(--border-strong);
+  box-shadow: 0 4px 0 #D4C3AA;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+  position: relative;
+  transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.train-car.is-missing {
+  background: var(--amber-gold-soft);
+  border: 3px dashed var(--amber-gold-dark);
+  color: var(--amber-gold-dark);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.8rem;
+  box-shadow: none;
+  animation: pulse-slot 1.5s ease-in-out infinite;
+}
+
+.train-car.is-filled {
+  background: var(--sage-green-soft);
+  border-color: var(--sage-green);
+  box-shadow: 0 4px 0 var(--sage-green-dark);
+  animation: pop-in 0.28s ease;
+}
+
+@keyframes pulse-slot {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.8); }
+  65% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* ==========================================================================
+   Choice Cards (Shared by Pattern & Growing)
+   ========================================================================== */
+.choices-label {
+  text-align: center;
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--ink-secondary);
+  margin: 0 0 0.65rem 0;
+}
+
+.choices-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+}
+
+.choice-card {
+  min-width: 96px;
+  min-height: 92px;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius-md);
+  border: 2.5px solid var(--border-strong);
+  background: var(--bg-cream);
+  box-shadow: 0 4px 0 #D4C3AA;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  font-size: 2.2rem;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.choice-card:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--cobalt-blue);
+  background: var(--cobalt-blue-soft);
+}
+
+.choice-card:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #D4C3AA;
+}
+
+.choice-card.is-correct {
+  background: var(--sage-green-soft);
+  border-color: var(--sage-green);
+  box-shadow: 0 4px 0 var(--sage-green-dark);
+}
+
+.choice-card.is-wrong {
+  background: var(--forge-ember-soft);
+  border-color: var(--forge-ember);
+  animation: gentle-shake 0.35s ease;
+}
+
+.choice-card:disabled {
+  cursor: default;
+}
+
+/* ==========================================================================
+   Odd One Out Grid
+   ========================================================================== */
+.odd-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.odd-card {
+  width: 118px;
+  min-height: 118px;
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  border: 2.5px solid var(--border-strong);
+  background: var(--bg-cream);
+  box-shadow: 0 5px 0 #D4C3AA;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  font-size: 2.5rem;
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.odd-card:hover:not(:disabled) {
+  transform: translateY(-3px);
+  border-color: var(--amber-gold-dark);
+  background: var(--amber-gold-soft);
+}
+
+.odd-card.is-correct {
+  background: var(--sage-green-soft);
+  border-color: var(--sage-green);
+  box-shadow: 0 5px 0 var(--sage-green-dark);
+  transform: scale(1.04);
+}
+
+.odd-card.is-wrong {
+  background: var(--forge-ember-soft);
+  border-color: var(--forge-ember);
+  animation: gentle-shake 0.35s ease;
+}
+
+.odd-caption {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--ink-secondary);
+}
+
+/* ==========================================================================
+   Growing Towers
+   ========================================================================== */
+.towers-stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1rem;
+  background: linear-gradient(180deg, #F6EFE2 0%, #EDE2CE 100%);
+  border: 2px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1rem;
+}
+
+.tower-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tower-stack {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3px;
+  min-width: 58px;
+  min-height: 150px;
+  padding: 0.45rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 253, 248, 0.72);
+  border: 2px solid var(--border-warm);
+}
+
+.tower-slot.is-missing .tower-stack {
+  background: var(--amber-gold-soft);
+  border: 2.5px dashed var(--amber-gold-dark);
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: var(--amber-gold-dark);
+}
+
+.tower-slot.is-filled .tower-stack {
+  background: var(--sage-green-soft);
+  border-color: var(--sage-green);
+}
+
+.tower-block {
+  width: 36px;
+  height: 18px;
+  border-radius: 5px;
+  border: 2px solid rgba(43, 30, 22, 0.25);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+}
+
+.tower-count-label {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink-secondary);
+}
+
+.tower-choice-stack {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 2px;
+  min-height: 64px;
+  justify-content: flex-start;
+}
+
+.tower-choice-stack .tower-block {
+  width: 26px;
+  height: 12px;
+}
+
+@keyframes gentle-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Action & Feedback */
+.action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  border-top: 1.5px dashed var(--border-warm);
+  padding-top: 0.9rem;
+}
+
+.feedback-banner {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 0.95rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-sand);
+  border: 1.5px solid var(--border-warm);
+  font-weight: 700;
+  font-size: 0.94rem;
+}
+
+.feedback-banner.is-success {
+  background: var(--sage-green-soft);
+  border-color: var(--sage-green);
+  color: var(--sage-green-dark);
+}
+
+.feedback-banner.is-error {
+  background: var(--forge-ember-soft);
+  border-color: var(--forge-ember);
+  color: var(--forge-ember-dark);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  min-height: 46px;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-pill);
+  border: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.action-btn-primary {
+  background: var(--sage-green);
+  color: #fff;
+  box-shadow: 0 4px 0 var(--sage-green-dark);
+}
+
+@media (max-width: 680px) {
+  .mode-nav {
+    grid-template-columns: 1fr;
+  }
+  .btn-label {
+    display: none;
+  }
+  .train-car,
+  .train-engine {
+    width: 60px;
+    height: 68px;
+    font-size: 1.7rem;
+  }
+  .odd-card {
+    width: 98px;
+    min-height: 102px;
+    font-size: 2.1rem;
+  }
+}
