@@ -720,6 +720,169 @@ a {
 }
 
 /* ==========================================================================
+   Napi 3 Kaland & Jelvényalbum & Globális Némítás
+   ========================================================================== */
+.teacher-btn.is-muted {
+  background: #FCEAE6;
+  border-color: #E7A99C;
+  color: var(--forge-ember-dark);
+}
+
+.daily-section {
+  margin-bottom: 2.25rem;
+}
+
+.daily-card {
+  background: linear-gradient(135deg, #FFFDF8 0%, #FDF4E1 100%);
+  border: 2px solid var(--amber-gold);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.4rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+}
+
+.daily-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.daily-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.daily-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.streak-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-pill);
+  font-weight: 800;
+  font-size: 0.85rem;
+  background: #FFF0D4;
+  color: #8A5300;
+  border: 1.5px solid #F0C97D;
+}
+
+.daily-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.8rem;
+}
+
+.daily-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  padding: 0.75rem 0.95rem;
+  background: var(--bg-cream);
+  border: 2px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--ink-primary);
+  font-weight: 700;
+  transition: transform 140ms ease, border-color 140ms ease;
+}
+
+.daily-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--amber-gold);
+}
+
+.daily-item.is-done {
+  background: var(--sage-green-soft);
+  border-color: #9ED3B6;
+  color: var(--sage-green-dark);
+}
+
+.daily-item-left {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.daily-status {
+  font-size: 0.85rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+
+.album-tile {
+  background: var(--bg-sand);
+  border: 2px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 0.75rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  opacity: 0.65;
+  filter: grayscale(0.65);
+}
+
+.album-tile.is-unlocked {
+  background: linear-gradient(180deg, #FFFDF8 0%, #EEF9F2 100%);
+  border-color: #9ED3B6;
+  opacity: 1;
+  filter: none;
+}
+
+.album-emoji {
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.album-badge-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--ink-primary);
+}
+
+.album-app-name {
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+  font-weight: 700;
+}
+
+.grandmaster-banner {
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #FFF3C4 0%, #FDE293 100%);
+  border: 2px solid var(--amber-gold);
+  color: #6B4100;
+  font-weight: 800;
+  text-align: center;
+  font-size: 0.96rem;
+}
+
+/* ==========================================================================
    Responsive Breakpoints
    ========================================================================== */
 @media (max-width: 860px) {

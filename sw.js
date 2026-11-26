@@ -1,11 +1,19 @@
-const CACHE_NAME = 'logika-muhely-v9';
+const CACHE_NAME = 'logika-muhely-v10';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './assets/icon.svg',
-  './styles/main.css?v=4',
-  './shared/logika-core.js?v=4',
+  './assets/icon-192.png',
+  './assets/icon-512.png',
+  './assets/apple-touch-icon.png',
+  './styles/fonts.css',
+  './assets/fonts/baloo-2-600-latin.woff2',
+  './assets/fonts/baloo-2-600-latin-ext.woff2',
+  './assets/fonts/nunito-500-latin.woff2',
+  './assets/fonts/nunito-500-latin-ext.woff2',
+  './styles/main.css?v=5',
+  './shared/logika-core.js?v=5',
   './kovacs-muhelye/index.html',
   './kovacs-muhelye/styles.css?v=3',
   './kovacs-muhelye/app.js?v=3',

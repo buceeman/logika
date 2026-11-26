@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Logika Műhely — Játékos logikafejlesztő 1. osztályosoknak</title>
   <meta name="description" content="Bizonyított magyar és nemzetközi módszereken alapuló, olvasásmentes logikai játékok elsős kisiskolásoknak minden eszközre.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/fonts.css">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles/main.css?v=4">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles/main.css?v=5">
 </head>
 <body>
   <header class="site-header">
@@ -29,6 +28,8 @@
       </a>
       <div class="header-meta">
         <span class="age-tag" id="total-stars-pill">⭐ <strong id="total-stars-value">0</strong> csillag</span>
+        <button type="button" class="teacher-btn" id="btn-global-mute" aria-pressed="false" title="Globális hang ki/be">🔊 Hang: BE</button>
+        <button type="button" class="teacher-btn" id="btn-open-album">🏅 Jelvényalbum</button>
         <button type="button" class="teacher-btn" id="btn-open-teacher">👩‍🏫 Tanítói nézet</button>
       </div>
     </div>
@@ -46,6 +47,9 @@
             <a href="kovacs-muhelye/index.html" class="btn btn-primary" id="hero-play-kovacs">
               🔨 Induljon a Kovács Műhelye!
             </a>
+            <button type="button" class="btn btn-secondary" id="hero-random-app">
+              🎲 Meglepetés játék
+            </button>
             <a href="#jatekok-lista" class="btn btn-secondary" id="hero-browse-apps">
               Összes játék megtekintése
             </a>
@@ -75,6 +79,19 @@
             </div>
           </div>
         </aside>
+      </div>
+    </section>
+
+    <section class="daily-section" id="daily-quest-section" aria-labelledby="daily-heading">
+      <div class="daily-card">
+        <div class="daily-header">
+          <h2 class="daily-title" id="daily-heading">🌟 Mai 3 Kaland</h2>
+          <div class="daily-meta">
+            <span class="streak-pill" id="daily-streak-pill">🔥 <span id="daily-streak-value">0</span> napos sorozat</span>
+            <span class="card-star-pill" id="daily-progress-pill">0 / 3 kész</span>
+          </div>
+        </div>
+        <div class="daily-items" id="daily-quest-items"></div>
       </div>
     </section>
 
@@ -343,7 +360,24 @@
     </div>
   </div>
 
-  <script src="shared/logika-core.js?v=4"></script>
+  <!-- Jelvényalbum Modal -->
+  <div class="modal-backdrop" id="album-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="album-modal-title">
+    <div class="teacher-modal">
+      <div class="teacher-modal-header">
+        <h2 id="album-modal-title">🏅 Jelvényalbum</h2>
+        <button type="button" class="teacher-btn" id="btn-close-album">✕ Bezárás</button>
+      </div>
+      <p style="margin:0; color:var(--ink-secondary); font-size:0.92rem;" id="album-subtitle">
+        Gyűjts 5 csillagot minden játékban, hogy feloldd mind a 10 mesterjelvényt!
+      </p>
+      <div id="album-grandmaster" class="grandmaster-banner" style="display:none;">
+        🏆 Gratulálunk! Mind a 10 mesterjelvényt megszerezted — Te vagy a Logika Nagymestere!
+      </div>
+      <div class="album-grid" id="album-grid"></div>
+    </div>
+  </div>
+
+  <script src="shared/logika-core.js?v=5"></script>
   <script>
     (() => {
       const cardIds = {
@@ -358,6 +392,59 @@
         vakond: 'card-kertesz-vakond',
         gep: 'card-varazsgep',
       };
+
+      function refreshHeroActions() {
+        const core = window.LogikaCore;
+        if (!core) return;
+        const primaryBtn = document.getElementById('hero-play-kovacs');
+        const lastApp = core.getLastApp();
+        if (primaryBtn && lastApp) {
+          primaryBtn.href = lastApp.path;
+          primaryBtn.textContent = `▶️ Folytasd: ${lastApp.name}`;
+        } else if (primaryBtn) {
+          primaryBtn.href = 'kovacs-muhelye/index.html';
+          primaryBtn.textContent = '🔨 Induljon a Kovács Műhelye!';
+        }
+      }
+
+      function refreshMuteButton() {
+        const core = window.LogikaCore;
+        const btn = document.getElementById('btn-global-mute');
+        if (!core || !btn) return;
+        const muted = core.isMuted();
+        btn.setAttribute('aria-pressed', String(muted));
+        btn.classList.toggle('is-muted', muted);
+        btn.textContent = muted ? '🔇 Hang: KI' : '🔊 Hang: BE';
+      }
+
+      function refreshDailyQuest() {
+        const core = window.LogikaCore;
+        if (!core) return;
+        const daily = core.getDailyQuest();
+        const streak = core.getStreak();
+        const itemsEl = document.getElementById('daily-quest-items');
+        const streakEl = document.getElementById('daily-streak-value');
+        const progressEl = document.getElementById('daily-progress-pill');
+
+        if (streakEl) streakEl.textContent = String(streak.count);
+        if (progressEl) {
+          const doneCount = daily.completed.length;
+          progressEl.textContent = doneCount >= 3 ? '🎉 3 / 3 kész!' : `${doneCount} / 3 kész`;
+        }
+        if (!itemsEl) return;
+
+        itemsEl.innerHTML = daily.apps.map((key) => {
+          const app = core.APP_META.find((a) => a.key === key);
+          if (!app) return '';
+          const isDone = daily.completed.includes(key);
+          return `
+            <a href="${app.path}" class="daily-item ${isDone ? 'is-done' : ''}" data-daily-key="${app.key}">
+              <span class="daily-item-left">${app.emoji} ${app.name}</span>
+              <span class="daily-status">${isDone ? '✅ Kész' : 'Indulás →'}</span>
+            </a>
+          `;
+        }).join('');
+      }
 
       function refreshHubProgress() {
         const core = window.LogikaCore;
@@ -384,6 +471,10 @@
             </span>
           `;
         });
+
+        refreshHeroActions();
+        refreshDailyQuest();
+        refreshMuteButton();
       }
 
       const backdrop = document.getElementById('teacher-modal-backdrop');
@@ -412,6 +503,56 @@
         document.getElementById('teacher-total-summary').textContent =
           `Összesen: ⭐ ${core.getTotalStars()} csillag`;
       }
+
+      const albumBackdrop = document.getElementById('album-modal-backdrop');
+      const albumGrid = document.getElementById('album-grid');
+
+      function renderAlbumModal() {
+        const core = window.LogikaCore;
+        const summary = core.getBadgeSummary();
+        document.getElementById('album-subtitle').textContent =
+          `Megszerezve: ${summary.unlockedCount} / ${summary.totalCount} mesterjelvény (5 csillag játékonként).`;
+        document.getElementById('album-grandmaster').style.display =
+          summary.allUnlocked ? 'block' : 'none';
+
+        albumGrid.innerHTML = core.APP_META.map((app) => {
+          const stars = core.getAppStars(app.starKey);
+          const unlocked = stars >= 5;
+          return `
+            <div class="album-tile ${unlocked ? 'is-unlocked' : ''}">
+              <div class="album-emoji">${unlocked ? app.emoji : '🔒'}</div>
+              <div class="album-badge-name">${unlocked ? app.badge : 'Még zárolva'}</div>
+              <div class="album-app-name">${app.name} (⭐ ${stars}/5)</div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      document.getElementById('btn-global-mute').addEventListener('click', () => {
+        window.LogikaCore.toggleMuted();
+        refreshMuteButton();
+      });
+
+      document.getElementById('hero-random-app').addEventListener('click', () => {
+        const core = window.LogikaCore;
+        const unbadged = core.APP_META.filter((a) => core.getAppStars(a.starKey) < 5);
+        const pool = unbadged.length > 0 ? unbadged : core.APP_META;
+        const pick = pool[Math.floor(Math.random() * pool.length)];
+        window.location.href = pick.path;
+      });
+
+      document.getElementById('btn-open-album').addEventListener('click', () => {
+        renderAlbumModal();
+        albumBackdrop.classList.add('is-open');
+      });
+
+      document.getElementById('btn-close-album').addEventListener('click', () => {
+        albumBackdrop.classList.remove('is-open');
+      });
+
+      albumBackdrop.addEventListener('click', (e) => {
+        if (e.target === albumBackdrop) albumBackdrop.classList.remove('is-open');
+      });
 
       document.getElementById('btn-open-teacher').addEventListener('click', () => {
         renderTeacherModal();
