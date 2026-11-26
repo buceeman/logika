@@ -679,6 +679,47 @@ a {
 }
 
 /* ==========================================================================
+   How To Play Box (App Bottom Guide)
+   ========================================================================== */
+.how-to-play {
+  margin-top: 1.25rem;
+  background: var(--bg-cream);
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  color: var(--ink-secondary);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.how-to-play-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  margin: 0 0 0.45rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.how-to-play p {
+  margin: 0 0 0.4rem 0;
+}
+
+.how-to-play ul {
+  margin: 0.25rem 0 0 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.how-to-play li strong {
+  color: var(--ink-primary);
+}
+
+/* ==========================================================================
    Responsive Breakpoints
    ========================================================================== */
 @media (max-width: 860px) {

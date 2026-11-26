@@ -1,4 +1,4 @@
-const CACHE_NAME = 'logika-muhely-v5';
+const CACHE_NAME = 'logika-muhely-v6';
 const ASSETS = [
   './',
   './index.html',
