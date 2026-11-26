@@ -1,4 +1,4 @@
-const CACHE_NAME = 'logika-muhely-v7';
+const CACHE_NAME = 'logika-muhely-v8';
 const ASSETS = [
   './',
   './index.html',
@@ -30,6 +30,9 @@ const ASSETS = [
   './minta-vonat/index.html',
   './minta-vonat/styles.css?v=1',
   './minta-vonat/app.js?v=1',
+  './kertesz-vakond/index.html',
+  './kertesz-vakond/styles.css?v=1',
+  './kertesz-vakond/app.js?v=1',
 ];
 
 self.addEventListener('install', (event) => {

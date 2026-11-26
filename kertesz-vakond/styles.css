@@ -1,0 +1,543 @@
+/* ==========================================================================
+   Kertész Vakond — Mini-Sudoku (3x3, 4x4) & Grid Coordinates
+   ========================================================================== */
+
+.vakond-body {
+  background-color: var(--bg-parchment);
+  background-image:
+    radial-gradient(circle at 14% 16%, rgba(56, 125, 90, 0.12) 0%, transparent 48%),
+    radial-gradient(circle at 86% 82%, rgba(217, 146, 38, 0.09) 0%, transparent 46%);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.workshop-header {
+  background: var(--bg-cream);
+  border-bottom: 2px solid var(--border-warm);
+  padding: 0.65rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.workshop-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--bg-sand);
+  border: 1.5px solid var(--border-warm);
+  color: var(--ink-primary);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  background: #E8DEC9;
+}
+
+.workshop-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 42px;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--amber-gold-soft);
+  border: 1.5px solid #E9C685;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink-primary);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border-warm);
+  background: var(--bg-cream);
+  color: var(--ink-primary);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: var(--bg-sand);
+}
+
+.icon-btn.is-muted {
+  opacity: 0.65;
+  background: var(--bg-sand);
+}
+
+.icon-btn.is-active {
+  background: var(--amber-gold-soft);
+  border-color: var(--amber-gold-dark);
+}
+
+/* Mode Nav */
+.mode-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.mode-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 52px;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-warm);
+  background: var(--bg-cream);
+  color: var(--ink-secondary);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.mode-tab:hover {
+  background: var(--bg-sand);
+}
+
+.mode-tab.is-active {
+  background: var(--sage-green);
+  border-color: var(--sage-green-dark);
+  color: #fff;
+  box-shadow: 0 4px 0 var(--sage-green-dark);
+  transform: translateY(-2px);
+}
+
+/* Main Panel */
+.workshop-main {
+  flex: 1;
+  padding-bottom: 2.5rem;
+}
+
+.game-panel {
+  margin-top: 1rem;
+  background: var(--bg-cream);
+  border: 2px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: clamp(1rem, 2.5vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.prompt-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background: var(--bg-sand);
+  border: 1.5px solid var(--border-warm);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.1rem;
+}
+
+.prompt-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.guide-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--sage-green-soft);
+  border: 2px solid var(--sage-green);
+  display: grid;
+  place-items: center;
+  font-size: 1.65rem;
+  flex-shrink: 0;
+}
+
+.level-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--sage-green-dark);
+  background: var(--sage-green-soft);
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: 0.2rem;
+}
+
+.prompt-instruction {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2vw, 1.28rem);
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+
+.difficulty-bar {
+  display: inline-flex;
+  gap: 0.3rem;
+  background: var(--bg-cream);
+  padding: 0.25rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border-warm);
+}
+
+.diff-btn {
+  border: none;
+  background: transparent;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-pill);
+  font-weight: 800;
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+  cursor: pointer;
+}
+
+.diff-btn.is-active {
+  background: var(--sage-green);
+  color: #fff;
+}
+
+/* ==========================================================================
+   Garden Sudoku Grid
+   ========================================================================== */
+.garden-board-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.sudoku-grid {
+  display: grid;
+  gap: 6px;
+  background: #8B6F4E;
+  padding: 8px;
+  border-radius: var(--radius-md);
+  border: 3px solid #6E5438;
+  box-shadow: 0 5px 0 #5C452D;
+}
+
+.sudoku-grid.size-3 {
+  grid-template-columns: repeat(3, 74px);
+}
+
+.sudoku-grid.size-4 {
+  grid-template-columns: repeat(4, 66px);
+  gap: 5px;
+}
+
+.garden-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  border: 2px solid #D7C6AC;
+  background: #FFFDF8;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.1s ease, border-color 0.15s ease, background-color 0.15s ease;
+  padding: 0;
+}
+
+.garden-cell.is-fixed {
+  background: #EFE6D5;
+  border-color: #C7B497;
+  cursor: default;
+}
+
+.garden-cell.is-empty {
+  background: #F6FBF8;
+  border: 2.5px dashed #8BB89F;
+}
+
+.garden-cell.is-empty:hover {
+  background: #E5F3EC;
+  border-color: var(--sage-green);
+}
+
+.garden-cell.is-selected {
+  border: 3px solid var(--cobalt-blue);
+  background: var(--cobalt-blue-soft);
+  transform: scale(1.04);
+}
+
+.garden-cell.is-conflict {
+  background: var(--forge-ember-soft);
+  border-color: var(--forge-ember);
+  animation: gentle-shake 0.32s ease;
+}
+
+.garden-cell.is-solved {
+  background: var(--sage-green-soft);
+  border-color: var(--sage-green);
+}
+
+/* 4x4 sub-box visual dividers */
+.sudoku-grid.size-4 .garden-cell.box-right {
+  margin-right: 4px;
+}
+.sudoku-grid.size-4 .garden-cell.box-bottom {
+  margin-bottom: 4px;
+}
+
+/* Seed Palette */
+.seed-tray-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.seed-tray-label {
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--ink-secondary);
+  margin: 0;
+}
+
+.seed-tray {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.seed-btn {
+  min-width: 68px;
+  min-height: 64px;
+  border-radius: var(--radius-md);
+  border: 2.5px solid var(--border-strong);
+  background: var(--bg-cream);
+  box-shadow: 0 4px 0 #D4C3AA;
+  font-size: 2rem;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.1s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.seed-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--sage-green);
+}
+
+.seed-btn.is-active {
+  background: var(--sage-green-soft);
+  border-color: var(--sage-green-dark);
+  box-shadow: 0 4px 0 var(--sage-green-dark);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Treasure Map Grid
+   ========================================================================== */
+.map-board-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  overflow-x: auto;
+}
+
+.map-grid-outer {
+  display: inline-grid;
+  gap: 6px;
+  align-items: center;
+  justify-items: center;
+  background: #EDE2CE;
+  padding: 0.85rem;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-warm);
+}
+
+.map-axis-label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: var(--ink-secondary);
+  padding: 0.15rem 0.45rem;
+}
+
+.map-cell {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  border: 2px solid #C9B79C;
+  background: #FFFDF8;
+  box-shadow: 0 3px 0 #D4C3AA;
+  display: grid;
+  place-items: center;
+  font-size: 1.75rem;
+  cursor: pointer;
+  transition: transform 0.1s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.map-cell:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--amber-gold-dark);
+  background: var(--amber-gold-soft);
+}
+
+.map-cell.is-mole {
+  background: var(--cobalt-blue-soft);
+  border-color: var(--cobalt-blue);
+}
+
+.map-cell.is-found {
+  background: var(--sage-green-soft);
+  border-color: var(--sage-green);
+  box-shadow: 0 3px 0 var(--sage-green-dark);
+  transform: scale(1.06);
+}
+
+.map-cell.is-wrong {
+  background: var(--forge-ember-soft);
+  border-color: var(--forge-ember);
+  animation: gentle-shake 0.32s ease;
+}
+
+@keyframes gentle-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Action & Feedback */
+.action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  border-top: 1.5px dashed var(--border-warm);
+  padding-top: 0.9rem;
+}
+
+.feedback-banner {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 0.95rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-sand);
+  border: 1.5px solid var(--border-warm);
+  font-weight: 700;
+  font-size: 0.94rem;
+}
+
+.feedback-banner.is-success {
+  background: var(--sage-green-soft);
+  border-color: var(--sage-green);
+  color: var(--sage-green-dark);
+}
+
+.feedback-banner.is-error {
+  background: var(--forge-ember-soft);
+  border-color: var(--forge-ember);
+  color: var(--forge-ember-dark);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  min-height: 46px;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-pill);
+  border: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.action-btn-primary {
+  background: var(--sage-green);
+  color: #fff;
+  box-shadow: 0 4px 0 var(--sage-green-dark);
+}
+
+.action-btn-secondary {
+  background: var(--bg-sand);
+  color: var(--ink-primary);
+  border: 1.5px solid var(--border-strong);
+}
+
+@media (max-width: 680px) {
+  .mode-nav {
+    grid-template-columns: 1fr;
+  }
+  .btn-label {
+    display: none;
+  }
+  .sudoku-grid.size-3 {
+    grid-template-columns: repeat(3, 66px);
+  }
+  .sudoku-grid.size-4 {
+    grid-template-columns: repeat(4, 56px);
+  }
+  .garden-cell {
+    font-size: 1.7rem;
+  }
+  .map-cell {
+    width: 52px;
+    height: 52px;
+    font-size: 1.45rem;
+  }
+}

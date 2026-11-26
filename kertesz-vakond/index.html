@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kertész Vakond — Logika Műhely</title>
+  <meta name="description" content="Mini-Sudoku (3×3 és 4×4) és kincs-térképes rács-logika elsős kisiskolásoknak magyar hangalámondással.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles/main.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body class="vakond-body">
+  <header class="workshop-header">
+    <div class="container workshop-header-inner">
+      <div class="header-left">
+        <a href="../index.html" class="back-link" id="btn-back-home">← Főoldal</a>
+        <h1 class="workshop-title">🌻 Kertész Vakond</h1>
+      </div>
+
+      <div class="header-controls">
+        <span class="stat-pill" id="star-counter" aria-label="Összegyűjtött csillagok">
+          ⭐ <span id="star-count-value">0</span>
+        </span>
+        <button type="button" class="icon-btn" id="btn-infinite-mode" aria-pressed="false" title="Végtelen gyakorlás be/ki">
+          ∞ <span class="btn-label">Végtelen</span>
+        </button>
+        <button type="button" class="icon-btn" id="btn-replay-voice" title="Feladat meghallgatása újra">
+          🗣️ <span class="btn-label">Hallgasd</span>
+        </button>
+        <button type="button" class="icon-btn" id="btn-toggle-sound" aria-pressed="true" title="Hang ki/be">
+          🔊
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container workshop-main">
+    <nav class="mode-nav" aria-label="Játékmódok">
+      <button type="button" class="mode-tab is-active" id="tab-mode-sudoku3" data-mode="sudoku3">
+        <span>🌻</span>
+        <span>1. 3×3 Virágoskert</span>
+      </button>
+      <button type="button" class="mode-tab" id="tab-mode-sudoku4" data-mode="sudoku4">
+        <span>🐾</span>
+        <span>2. 4×4 Állatkert</span>
+      </button>
+      <button type="button" class="mode-tab" id="tab-mode-map" data-mode="map">
+        <span>🗺️</span>
+        <span>3. Kincs-térkép</span>
+      </button>
+    </nav>
+
+    <section class="game-panel" aria-live="polite">
+      <div class="prompt-bar">
+        <div class="prompt-left">
+          <div class="guide-avatar" aria-hidden="true">🦡</div>
+          <div>
+            <span class="level-badge" id="level-badge">1. ágyás</span>
+            <p class="prompt-instruction" id="prompt-instruction">Töltsük be a kertet…</p>
+          </div>
+        </div>
+        <div class="difficulty-bar" id="difficulty-bar" role="group" aria-label="Nehézségi szint">
+          <button type="button" class="diff-btn is-active" data-diff="easy">🌱 Könnyű</button>
+          <button type="button" class="diff-btn" data-diff="medium">⚡ Közepes</button>
+          <button type="button" class="diff-btn" data-diff="hard">🔥 Nehéz</button>
+        </div>
+      </div>
+
+      <div id="game-stage"></div>
+
+      <div class="action-bar">
+        <div class="feedback-banner" id="feedback-banner">
+          <span>💡</span>
+          <span id="feedback-text">Válassz egy növényt vagy állatot, és ültesd az üres mezőre!</span>
+        </div>
+        <div class="action-buttons" id="action-buttons"></div>
+      </div>
+    </section>
+
+    <section class="how-to-play" aria-label="Hogyan játssz?">
+      <h2 class="how-to-play-title">📖 Hogyan játssz?</h2>
+      <p>Segíts Vakondnak beültetni a kertet úgy, hogy egyetlen sorban és oszlopban se legyen két egyforma!</p>
+      <ul>
+        <li><strong>3×3 Virágoskert:</strong> Koppints lent egy virágra, majd az üres kerti mezőre! Minden sorban és oszlopban minden virág csak egyszer szerepelhet. (Koppintással ki is veheted.)</li>
+        <li><strong>4×4 Állatkert:</strong> Ugyanaz a szabály 4 állattal: figyelj a sorokra, az oszlopokra és a vastag vonallal jelölt 4 kis négyzetre is!</li>
+        <li><strong>Kincs-térkép:</strong> Figyeld a sorok és oszlopok számát, és koppints arra a helyre, ahol a kincs vagy a répa rejtőzik!</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="../shared/logika-core.js?v=4"></script>
+  <script src="app.js?v=1"></script>
+</body>
+</html>
